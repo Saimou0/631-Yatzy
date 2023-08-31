@@ -7,11 +7,20 @@ public class Yatzy {
 
         Kayttoliittyma kayttoliityma = new Kayttoliittyma();
         Nopat nopat = new Nopat();
-        Pistekirjaus pistekirjaus = new Pistekirjaus();
-        Pelinlogiikka pelinlogiikka = new Pelinlogiikka();
+        Pistekirjaus pisteKirjaus = new Pistekirjaus();
+        Menunlogiikka menunLogiikka = new Menunlogiikka();
 
-        pelinlogiikka.logiikkaAloitus(kayttoliityma);
+        menunLogiikka.pelinAloitus(kayttoliityma, pisteKirjaus);
         
         
     }
 }
+
+
+// @TODO
+// PELIN SÄÄNNÖT
+// Peliä voi pelata yksin tai useamman kanssa.
+// Yksin pelatessa pelataan omaa high scoree vastaan.
+// Muiden kanssa pelatessa pelataan muita vastaan.
+// Pelaajien hallinta
+// 
