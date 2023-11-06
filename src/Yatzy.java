@@ -1,4 +1,5 @@
 import Kayttoliittyma.Kayttoliittyma;
+import Kayttoliittyma.Menunlogiikka;
 import Nopat.Nopat;
 import Pistekirjaus.Pistekirjaus;
 

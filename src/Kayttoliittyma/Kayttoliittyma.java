@@ -15,7 +15,12 @@ public class Kayttoliittyma {
         System.out.println("----Virheellinen syöttö yritä uudestaan.----");
     }
 
+    public void piirraJaahyvaiset() {
+        System.out.println("----Nähdään pian!----");
+    }
+
     public void piirraMenu() {
+        
         System.out.println(
             """
             ------------------------
@@ -30,13 +35,15 @@ public class Kayttoliittyma {
     }
 
     public void piirraPeliMuodot() {
+
         System.out.println(
             """
             ---------------------------
             |       PELI MUODOT       |
             |                         |
             |     1 -> Moninpeli      |
-            |     0 -> Yksinpeli      |
+            |     2 -> Yksinpeli      |
+            |     0 -> Lopeta         |
             |                         |
             ---------------------------
             """
@@ -51,22 +58,24 @@ public class Kayttoliittyma {
         System.out.println("---- Peli loppui.----");
     }
 
+    // Muista lisätä indeksi
     public void piirraKysyPelaajanNimi() {
         System.out.println("----Pelaajan " + "(lisää muuttuja pelaajan indeksiin)" + " nimi.----");
     }
 
-    public void piirraPelaajanPisteKortti() {
-        // Tee Pelaaja lista 
-        // Listataan pelaajan nimi, ja pelaajan nimen alle heidän piste korttinsa. Tämä tehdään jokaiselle pelaajalle.
-        for(int i = 0; i < pl.getLength; i++) {
-            // System.out.println("Pelaaja: " + pl.getPelaaja(i));
+    // public void piirraPelaajanPisteKortti() {
+    //     // Tee Pelaaja lista 
+    //     // Listataan pelaajan nimi, ja pelaajan nimen alle heidän piste korttinsa. Tämä tehdään jokaiselle pelaajalle.
+    //     // Pisteenkirjauksessa objecti jokaisesta pelaajasta, jossa on nimi ja kaikki ne pisteen tallennettuna ja gettereinä.
+    //     for(int i = 0; i < pl.getLength; i++) {
+    //         System.out.println("Pelaaja: " + pl.getPelaaja(i));
             
-            // for(Pistekirjaus pistekirjaus : pk.getPisteet) {
-    
-            // }
-        }
+    //         for(Pistekirjaus pistekirjaus : pk.getPisteet) {
+                
+    //         }
+    //     }
 
-    }
+    // }
 
 
 
