@@ -16,12 +16,3 @@ public class Yatzy {
         
     }
 }
-
-
-// @TODO
-// PELIN SÄÄNNÖT
-// Peliä voi pelata yksin tai useamman kanssa.
-// Yksin pelatessa pelataan omaa high scoree vastaan.
-// Muiden kanssa pelatessa pelataan muita vastaan.
-// Pelaajien hallinta
-// 
