@@ -1,6 +1,7 @@
 // Tekijä: Simo
 package Kayttoliittyma;
 
+
 public class Kayttoliittyma {
 
     public void piirraVirheSyotto() {
@@ -40,6 +41,10 @@ public class Kayttoliittyma {
             ---------------------------
             """
         );
+    }
+
+    public void piirraPisteKortti() {
+        
     }
 
     public void piirraUusiPeli() {

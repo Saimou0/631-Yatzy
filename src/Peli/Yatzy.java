@@ -1,3 +1,4 @@
+package Peli;
 import Kayttoliittyma.Kayttoliittyma;
 import Kayttoliittyma.Menunlogiikka;
 
@@ -13,7 +14,9 @@ public class Yatzy {
          1. Yatzy.java avaa menunLogiikan pelin aloituksen.
          2. Menunlogiikka.java hoitaa käyttöliittymän ja pelaajan/pelaajat
          3. Pelaaja.java hoitaa pelaajan nopat ja pistekirjauksen.
+         4. Menunlogiikka.java hoitaa pelin käyttöliittymän
         */
-        
+
     }
+    
 }
