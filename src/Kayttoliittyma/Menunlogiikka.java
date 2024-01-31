@@ -1,17 +1,14 @@
 package Kayttoliittyma;
 import java.util.Scanner;
 
-import Pistekirjaus.Pistekirjaus;
-
 public class Menunlogiikka {
     // Tekijä: Simo
     private Kayttoliittyma kl;
 
     Scanner lukija = new Scanner(System.in);
 
-    public void pelinAloitus(Kayttoliittyma kayttoliittyma, Pistekirjaus pistekirjaus) {
+    public void pelinAloitus(Kayttoliittyma kayttoliittyma) {
         this.kl = kayttoliittyma;
-        kl.piirtamisenAloitus(pistekirjaus);
         menu();
     }
 
