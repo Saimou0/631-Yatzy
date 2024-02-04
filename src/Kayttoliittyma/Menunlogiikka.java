@@ -30,22 +30,30 @@ public class Menunlogiikka {
 
             int kayttajanSyotto = kayttajanSyotto();
 
-            if(kayttajanSyotto == ALOITA_VAIHTOEHTO) {
-                this.tyhjennaTerminaali();
-                kl.piirraPeliMuodot();
-                this.peliMuodonValinta(kayttajanSyotto);
-                jatkaWhile = false;
+            switch (kayttajanSyotto) {
+                case ALOITA_VAIHTOEHTO:
+                    tyhjennaTerminaali();
+                    kl.piirraPeliMuodot();
+                    this.peliMuodonValinta(kayttajanSyotto);
+                    jatkaWhile = false;
+                    break;
 
-            } else if(kayttajanSyotto == LOPETA_VAIHTOEHTO) {
-                kl.piirraJaahyvaiset();
-                this.peliMuodonValinta(kayttajanSyotto);
-                jatkaWhile = false;
+                case LOPETA_VAIHTOEHTO:
+                    kl.piirraJaahyvaiset();
+                    this.peliMuodonValinta(kayttajanSyotto);
+                    jatkaWhile = false;
+                    break;
+            
+                default:
+                    break;
             }
 
         }
     }
 
     public void peliMuodonValinta(int kayttajanSyotto) {
+
+        
         boolean sopivaPeliVaihtoehto = false;
         while (sopivaPeliVaihtoehto == false) {
             
@@ -76,7 +84,7 @@ public class Menunlogiikka {
 
     // Pelimuodot
     public void yksinpeli(Pelaaja pelaaja) {
-
+        kl.piirraNopat(pelaaja.heitaNopat());
     }
 
     public void moninpeli(Pelaaja pelaaja1, Pelaaja pelaaja2) {

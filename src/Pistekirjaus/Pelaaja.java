@@ -1,8 +1,6 @@
 package Pistekirjaus;
 import Nopat.Nopat;
 
-
-
 public class Pelaaja {
 
     Pistekirjaus pistekirjaus;
@@ -11,7 +9,10 @@ public class Pelaaja {
     public Pelaaja() {
         this.nopat = new Nopat();
         this.pistekirjaus = new Pistekirjaus();
-        
+    }
+
+    public int[] heitaNopat() {
+        return new int[]{1, 2, 5, 1, 2};
     }
 
     
