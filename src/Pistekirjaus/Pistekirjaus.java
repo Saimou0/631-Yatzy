@@ -9,11 +9,11 @@ import java.util.HashMap;
 
 public class Pistekirjaus {
     HashMap<String, Integer> pisteet = new HashMap<>();
-    File pisteetKansio = new File("Pisteet/");
+    File pisteetKansio = new File("src/pisteet/");
 
     public void tallennaPisteetTiedostoon(String pelaajannimi) {
         try {
-            PrintWriter kirjoittaja = new PrintWriter(new File("Pisteet/" + pelaajannimi + "_pisteet.txt"));
+            PrintWriter kirjoittaja = new PrintWriter(new File("src/pisteet/" + pelaajannimi + "_pisteet.txt"));
 
             for (HashMap.Entry<String, Integer> merkinta : pisteet.entrySet()) {
                 kirjoittaja.println(merkinta.getKey() + ": " + merkinta.getValue());
@@ -31,7 +31,7 @@ public class Pistekirjaus {
         HashMap<String, Integer> luetutPisteet = new HashMap<>();
 
         try {
-            BufferedReader lukija = new BufferedReader(new FileReader("Pisteet/" + pelaajanNimi + "_pisteet.txt"));
+            BufferedReader lukija = new BufferedReader(new FileReader("src/pisteet/" + pelaajanNimi + "_pisteet.txt"));
 
             String rivi;
             while((rivi = lukija.readLine()) != null) {
@@ -45,6 +45,8 @@ public class Pistekirjaus {
                 }
             }
 
+            lukija.close();
+
         } catch (Exception e) {
             System.out.println("Tiedoston lukeminen ei onnistunut");
             e.printStackTrace();
@@ -55,7 +57,7 @@ public class Pistekirjaus {
 
     // Tarkistaa onko Pisteet kansiossa teksti tiedostoja
     public boolean onkoTiedostoja() {
-        if(pisteetKansio.isDirectory()) {
+        if(pisteetKansio.isDirectory() && pisteetKansio.list().length > 0) {
             return true;
         } else {
             System.out.println("Tiedostoja ei ole");
@@ -69,7 +71,10 @@ public class Pistekirjaus {
         File[] pisteTiedostot = pisteetKansio.listFiles();
         for (File tiedosto1 : pisteTiedostot) {
             if (tiedosto1.isFile()) {
-                tiedosto1.delete();
+                boolean isDeleted = tiedosto1.delete();
+                if(!isDeleted) {
+                    System.out.println("Tiedoston: " + tiedosto1.getName() + " poistaminen ei onnistunut");
+                }
             }
         }
     }

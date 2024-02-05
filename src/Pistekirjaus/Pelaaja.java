@@ -18,23 +18,26 @@ public class Pelaaja {
     }
 
     public void pisteetTesti() {
-        // pistekirjaus.pisteet.put("Ykkoset", 1);
-        // pistekirjaus.pisteet.put("Kakkoset", 2);
-        // pistekirjaus.pisteet.put("Kolmoset", 3);
+        pistekirjaus.pisteet.put("Ykkoset", 1);
+        pistekirjaus.pisteet.put("Kakkoset", 2);
+        pistekirjaus.pisteet.put("Kolmoset", 3);
 
-        // pistekirjaus.tallennaPisteetTiedostoon(nimi);
+        pistekirjaus.tallennaPisteetTiedostoon(nimi);
 
-        // pistekirjaus.luePisteetTiedostosta(nimi);
+        pistekirjaus.luePisteetTiedostosta(nimi);
 
-        // try {
-        //     Thread.sleep(5000);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        // if(pistekirjaus.onkoTiedostoja()) {
-        //     pistekirjaus.poistaPisteTiedostot();
-        // }
+
+        System.out.println(pistekirjaus.onkoTiedostoja());
+
+        if(pistekirjaus.onkoTiedostoja()) {
+            pistekirjaus.poistaPisteTiedostot();
+        }
     }
 
     public int[] heitaNopat() {
