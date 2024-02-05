@@ -3,15 +3,15 @@ import java.util.Scanner;
 
 import Pistekirjaus.Pelaaja;
 
+// Tekijä: Simo
 public class Menunlogiikka {
-    // Tekijä: Simo
-    private Kayttoliittyma kl;
 
+    private Kayttoliittyma kl;
     Scanner lukija = new Scanner(System.in);
 
     public void pelinAloitus(Kayttoliittyma kayttoliittyma) {
         this.kl = kayttoliittyma;
-        menu();
+        aloitusNaytto();
     }
 
     // Menu
@@ -20,30 +20,28 @@ public class Menunlogiikka {
     private static final int LOPETA_VAIHTOEHTO = 0;
     private static final int ALOITA_VAIHTOEHTO = 1;
 
-    public void menu() {
-
+    private void aloitusNaytto() {
         tyhjennaTerminaali();
         kl.piirraMenu();
 
-        boolean jatkaWhile = true;
-        while (jatkaWhile) {
+        boolean sopivaVaihtoehto = false;
+        while (sopivaVaihtoehto == false) {
 
             int kayttajanSyotto = kayttajanSyotto();
-
             switch (kayttajanSyotto) {
                 case ALOITA_VAIHTOEHTO:
                     tyhjennaTerminaali();
                     kl.piirraPeliMuodot();
                     this.peliMuodonValinta(kayttajanSyotto);
-                    jatkaWhile = false;
+                    sopivaVaihtoehto = true;
                     break;
 
                 case LOPETA_VAIHTOEHTO:
                     kl.piirraJaahyvaiset();
                     this.peliMuodonValinta(kayttajanSyotto);
-                    jatkaWhile = false;
+                    sopivaVaihtoehto = true;
                     break;
-            
+
                 default:
                     break;
             }
@@ -51,9 +49,8 @@ public class Menunlogiikka {
         }
     }
 
-    public void peliMuodonValinta(int kayttajanSyotto) {
+    private void peliMuodonValinta(int kayttajanSyotto) {
 
-        
         boolean sopivaPeliVaihtoehto = false;
         while (sopivaPeliVaihtoehto == false) {
             
@@ -61,37 +58,71 @@ public class Menunlogiikka {
 
             switch (kayttajanSyotto) {
                 case YKSINPELI_VAIHTOEHTO:
-                    Pelaaja pelaaja = new Pelaaja();
-                    this.yksinpeli(pelaaja);
+                    this.initYksinpeli();
                     sopivaPeliVaihtoehto = true;
                     break;
-            
+                
                 case MONINPELI_VAIHTOEHTO:
-                    Pelaaja pelaaja1 = new Pelaaja();
-                    Pelaaja pelaaja2 = new Pelaaja();
-                    this.moninpeli(pelaaja1, pelaaja2);
+                    this.initMoninpeli();
                     sopivaPeliVaihtoehto = true;
                     break;
                 
                 default:
                     break;
             }
-
+            
             
         }
     }
-
-
-    // Pelimuodot
-    public void yksinpeli(Pelaaja pelaaja) {
-        kl.piirraNopat(pelaaja.heitaNopat());
-    }
-
-    public void moninpeli(Pelaaja pelaaja1, Pelaaja pelaaja2) {
-
-    }
-
     
+    // Pelimuodot
+    // Kysytään pelaajan nimi ja luodaan pelaaja.
+    private void initYksinpeli() {
+        tyhjennaTerminaali();
+        Pelaaja pelaaja = null;
+        System.out.println("----Pelaajan nimi.----");
+
+
+        String nimi = kayttajanNimi();
+        if(nimi == "") {
+            nimi = "Pelaaja " + (1);
+        } else {
+            pelaaja = new Pelaaja(nimi);
+        }
+
+        pelaaja.pisteetTesti();
+
+    }
+
+    // Kysytään pelaajien määrä ja pelaajien nimet ja luodaan lista pelaajistas.
+    private void initMoninpeli() {
+        tyhjennaTerminaali();
+        
+        int pelaajienMaara = 0;
+        while (pelaajienMaara < 2) {
+            kl.kysyPelaajienMaara();
+            pelaajienMaara = kayttajanSyotto();
+
+            if(pelaajienMaara < 2 && pelaajienMaara != -1) {
+                System.out.println("----Pelaajien määrän tulee olla vähintään 2.----");
+            }
+        }
+        
+        Pelaaja[] pelaajat = new Pelaaja[pelaajienMaara];
+        tyhjennaTerminaali();
+        for (int i = 0; i < pelaajat.length; i++) {
+            kl.kysyPelaajanNimi(i + 1);
+
+            String nimi = kayttajanNimi();
+            if(nimi == "") {
+                nimi = "Pelaaja " + (i + 1);
+            } else {
+                pelaajat[i] = new Pelaaja(nimi);
+            }
+        }
+
+    }
+
     // Utility
     // Ottaa ja tarkistaa käyttäjän syötön.
     private int kayttajanSyotto() {
@@ -105,8 +136,23 @@ public class Menunlogiikka {
         }
     }
 
+    // Ottaa ja tarkistaa käyttäjän nimen syötön.
+    private String kayttajanNimi() {
+        try {
+            String syotto = lukija.nextLine();
+            
+            if(syotto.length() > 0) {
+                return syotto;
+            }
+
+            return "";
+        } catch (Exception e) {
+            kl.piirraVirheSyotto();
+            return "";
+        }
+    }
+
     // Tyhjentää terminaalin.
-    // Lisääjä: Simo
     public void tyhjennaTerminaali() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

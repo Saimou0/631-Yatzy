@@ -1,6 +1,7 @@
 // Tekijä: Simo
 package Kayttoliittyma;
 
+import java.util.HashMap;
 
 public class Kayttoliittyma {
 
@@ -43,12 +44,55 @@ public class Kayttoliittyma {
         );
     }
 
-    public void piirraPisteKortti() {
-        
+    public void kysyPelaajienMaara() {
+        System.out.println("----Anna pelaajien määrä. (Vähintään 2)----");
+    }
+
+    public void kysyPelaajanNimi(int pelaajanIndeksi) {
+        System.out.println("----Anna pelaajan: " + pelaajanIndeksi + " nimi.----");
     }
 
     public void piirraUusiPeli() {
         System.out.println("----Uusi peli.----");
+    }
+
+    public void piirraPelaajanVuoro(String pelaaja) {
+        System.out.println("----Pelaajan " + pelaaja + " vuoro.----");
+    }
+
+    public void piirraPisteKortti(HashMap<String, Integer> pisteet) {
+        
+        System.out.println(
+            """
+            -----------------------------
+            |       PISTE KORTTI        |
+            |                           |
+            | Ykköset                   |
+            | Kakkoset                  |
+            | Kolmoset                  |
+            | Neloset                   |
+            | Viitoset                  |
+            | Kuutoset                  |
+            |                           |
+            | Valisumma                 |
+            |                           |
+            | Pari                      |
+            | Kaksi paria               |
+            | Kolme samaa               |
+            |                           |
+            | Nelja samaa               |
+            | Pikku suora               |
+            | Iso suora                 |
+            | Taysikäsi                 |
+            | Sattuma                   |
+            | Yatzy                     |
+            |                           |
+            | Summa                     |
+            |                           |
+            -----------------------------
+
+            """
+        );
     }
 
     public void piirraPelinLoppuminen() {
@@ -56,25 +100,24 @@ public class Kayttoliittyma {
     }
 
     // Muista lisätä indeksi
-    public void piirraPelaajanNimi(String pelaaja) {
-        System.out.println("----Pelaajan " + "(lisää muuttuja pelaajan indeksiin)" + " nimi.----");
-    }
 
     public void piirraNopat(int[] nopat) {
-
+        // Tehdään taulukko johon tallenetaan kaikki nopat linja kerrallaan ja peräkäin.
+        // Tällein saadaan nopat piirrettyä vierekkäin samalle linjalle.
         String[] linjat = new String[5];
         for(int i = 0; i < 5; i++) {
             linjat[i] = "";
         }
 
+        // Tallennetaan yksi noppa linja kerrallaan noppienLinjat-taulukkoon.
         String[] noppienLinjat = null;
         for(int noppa : nopat) {
             switch (noppa) {
                 case 1:
                     noppienLinjat = new String[] {
-                        "---------",
-                        "|       |",
-                        "|   1   |",
+                        "---------", //indeksi 0 noppienLinjat listassa
+                        "|       |", // indeksi 1
+                        "|   1   |", // jne...
                         "|       |",
                         "---------",
                     };
@@ -135,17 +178,16 @@ public class Kayttoliittyma {
                     break;
             }
 
-        }
-        
-        for(int i = 0; i < 5; i++) {
-            linjat[i] += noppienLinjat[i] + " ";
+            // lisätään linjat-taulukkoon linjat indeksi i + noppienLinjat indeksi i ja lopuksi välilyönti.
+            for(int i = 0; i < 5; i++) {
+                linjat[i] += noppienLinjat[i] + " ";
+            }
         }
 
+        //Tuodaan linjat-taulukon sisältö näkyviin.
         for(String line : linjat) {
             System.out.println(line);
         }
-
-        System.out.println(noppienLinjat.length);
     }
 
 
