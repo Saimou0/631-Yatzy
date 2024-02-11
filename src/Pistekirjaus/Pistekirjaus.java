@@ -1,13 +1,15 @@
+// Lisääjä/Tekijä: Simo
 package Pistekirjaus;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-// import java.io.FileWriter;
-// import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Pistekirjaus {
+// Muuta hashmapit linkedhashmapeiks
+
+public class Pistekirjaus{
+    HashMap<String, Integer> mahdollisetPisteet = new HashMap<>();
     HashMap<String, Integer> pisteet = new HashMap<>();
     File pisteetKansio = new File("src/pisteet/");
 
@@ -83,8 +85,8 @@ public class Pistekirjaus {
         this.pisteet.put(nimi, pisteet);
     }
 
-    public int getPisteet(String nimi) {
-        return this.pisteet.get(nimi);
+    public HashMap<String, Integer> getPisteet() {
+        return this.pisteet;
     }
 
 

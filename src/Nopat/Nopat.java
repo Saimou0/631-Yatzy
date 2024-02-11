@@ -1,3 +1,4 @@
+// Lisääjä/Tekijä: Jimi
 package Nopat;
 
 import java.util.Random;

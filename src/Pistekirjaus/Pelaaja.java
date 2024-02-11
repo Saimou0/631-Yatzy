@@ -1,12 +1,17 @@
+// Lisääjä/Tekijä: Simo
 package Pistekirjaus;
-import Nopat.Nopat;
+import java.util.LinkedHashMap;
 
-public class Pelaaja {
+import Nopat.Nopat;
+import java.util.Map;
+
+public class Pelaaja{
+    Map<String, Integer> pisteet = new LinkedHashMap<>();
 
     Pistekirjaus pistekirjaus;
     Nopat nopat;
     String nimi;
-    
+
     public Pelaaja(String nimi) {
         this.nimi = nimi;
         this.nopat = new Nopat();
@@ -18,23 +23,25 @@ public class Pelaaja {
     }
 
     public void pisteetTesti() {
-        pistekirjaus.pisteet.put("Ykkoset", 1);
-        pistekirjaus.pisteet.put("Kakkoset", 2);
-        pistekirjaus.pisteet.put("Kolmoset", 3);
+        this.pisteet.put("Ykkoset", 1);
+        this.pisteet.put("Kakkoset", 2);
+        this.pisteet.put("Kolmoset", 3);
 
         pistekirjaus.tallennaPisteetTiedostoon(nimi);
 
         pistekirjaus.luePisteetTiedostosta(nimi);
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     Thread.sleep(5000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
 
+        // System.out.println(pistekirjaus.onkoTiedostoja());
 
-        System.out.println(pistekirjaus.onkoTiedostoja());
+    }
 
+    public void poistaPisteet() {
         if(pistekirjaus.onkoTiedostoja()) {
             pistekirjaus.poistaPisteTiedostot();
         }
@@ -42,6 +49,10 @@ public class Pelaaja {
 
     public int[] heitaNopat() {
         return new int[]{1, 2, 5, 1, 2};
+    }
+
+    public Map<String, Integer> getPisteet() {
+        return this.pisteet;
     }
 
     

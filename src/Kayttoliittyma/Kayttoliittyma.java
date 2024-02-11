@@ -1,7 +1,6 @@
-// Tekijä: Simo
+// Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
-
-import java.util.HashMap;
+import java.util.Map;
 
 public class Kayttoliittyma {
 
@@ -60,37 +59,45 @@ public class Kayttoliittyma {
         System.out.println("----Pelaajan " + pelaaja + " vuoro.----");
     }
 
-    public void piirraPisteKortti(HashMap<String, Integer> pisteet) {
+    public void piirraPisteKortti(Map<String, Integer> pisteet) {
         
+        // | Ykköset                   |
+        // | Kakkoset                  |
+        // | Kolmoset                  |
+        // | Neloset                   |
+        // | Viitoset                  |
+        // | Kuutoset                  |
+        // |                           |
+        // | Valisumma                 |
+        // |                           |
+        // | Pari                      |
+        // | Kaksi paria               |
+        // | Kolme samaa               |
+        // |                           |
+        // | Nelja samaa               |
+        // | Pikku suora               |
+        // | Iso suora                 |
+        // | Taysikäsi                 |
+        // | Sattuma                   |
+        // | Yatzy                     |
+        // |                           |
+        // | Summa                     |
         System.out.println(
             """
             -----------------------------
             |       PISTE KORTTI        |
             |                           |
-            | Ykköset                   |
-            | Kakkoset                  |
-            | Kolmoset                  |
-            | Neloset                   |
-            | Viitoset                  |
-            | Kuutoset                  |
-            |                           |
-            | Valisumma                 |
-            |                           |
-            | Pari                      |
-            | Kaksi paria               |
-            | Kolme samaa               |
-            |                           |
-            | Nelja samaa               |
-            | Pikku suora               |
-            | Iso suora                 |
-            | Taysikäsi                 |
-            | Sattuma                   |
-            | Yatzy                     |
-            |                           |
-            | Summa                     |
+            """
+        );
+
+        for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
+            System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisalto.getValue());
+        }
+
+        System.out.println(
+            """
             |                           |
             -----------------------------
-
             """
         );
     }
@@ -98,8 +105,6 @@ public class Kayttoliittyma {
     public void piirraPelinLoppuminen() {
         System.out.println("---- Peli loppui.----");
     }
-
-    // Muista lisätä indeksi
 
     public void piirraNopat(int[] nopat) {
         // Tehdään taulukko johon tallenetaan kaikki nopat linja kerrallaan ja peräkäin.

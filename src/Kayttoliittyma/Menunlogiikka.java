@@ -1,9 +1,9 @@
+// Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
 import java.util.Scanner;
 
 import Pistekirjaus.Pelaaja;
 
-// Tekijä: Simo
 public class Menunlogiikka {
 
     private Kayttoliittyma kl;
@@ -91,6 +91,9 @@ public class Menunlogiikka {
         }
 
         pelaaja.pisteetTesti();
+        
+
+        kl.piirraPisteKortti(pelaaja.getPisteet());
 
     }
 
