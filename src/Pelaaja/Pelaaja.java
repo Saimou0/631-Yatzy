@@ -59,7 +59,7 @@ public class Pelaaja{
 
     }
 
-    // Poistaa pelaajan pisteet
+    // Poistaa KAIKKI piste tiedostot
     public void poistaPisteet() {
         if(pistekirjaus.onkoTiedostoja()) {
             pistekirjaus.poistaPisteTiedostot();

@@ -1,5 +1,6 @@
 // Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Kayttoliittyma {
@@ -51,14 +52,41 @@ public class Kayttoliittyma {
         System.out.println("----Anna pelaajan: " + pelaajanIndeksi + " nimi.----");
     }
 
-    public void piirraUusiPeli() {
-        System.out.println("----Uusi peli.----");
-    }
-
     public void piirraPelaajanVuoro(String pelaaja) {
         System.out.println("----Pelaajan " + pelaaja + " vuoro.----");
     }
+    // Pelaajan vaihtoehdot pelissä
+    public void piirraPelaajanVaihtoehdot(ArrayList<Integer> vaihtoehdot) {
+        ArrayList<String> piirrettavatVaihtoehdot = new ArrayList<>();
+        for(int vaihtoehto : vaihtoehdot) {
+            switch (vaihtoehto) {
+                case 1:
+                    piirrettavatVaihtoehdot.add("|   1 -> Heitä nopat   |");
+                    break;
+                case 2:
+                    piirrettavatVaihtoehdot.add("| 2 -> Lukitse noppia  |");
+                    break;
+                case 3:
+                    piirrettavatVaihtoehdot.add("| 3 -> Valitse pisteet |");
+                    break;
+                default:
+                    this.piirraVirheSyotto();
+                    break;
+            }
 
+        }
+
+        System.out.println("------------------------");
+        System.out.println("|                      |");
+        for(String vaihtoehto :piirrettavatVaihtoehdot) {
+            System.out.println(vaihtoehto);
+        }
+        System.out.println("|     0 -> Lopeta      |");
+        System.out.println("|                      |");
+        System.out.println("------------------------");
+    }
+
+    // Pistekortti
     public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
 
         for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
@@ -92,10 +120,8 @@ public class Kayttoliittyma {
         );
     }
 
-    public void piirraPelinLoppuminen() {
-        System.out.println("---- Peli loppui.----");
-    }
-
+    // Nopat
+    // Alin metodi
     public void piirraNopat(int[] nopat) {
         // Tehdään taulukko johon tallenetaan kaikki nopat linja kerrallaan ja peräkäin.
         // Tällein saadaan nopat piirrettyä vierekkäin samalle linjalle.

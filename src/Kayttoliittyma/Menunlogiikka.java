@@ -3,10 +3,12 @@ package Kayttoliittyma;
 import java.util.Scanner;
 
 import Pelaaja.Pelaaja;
+import Peli.Yksinpeli;
 
 public class Menunlogiikka {
-
+    
     private Kayttoliittyma kl;
+    private Yksinpeli yksinpeli;
     Scanner lukija = new Scanner(System.in);
 
     public void pelinAloitus(Kayttoliittyma kayttoliittyma) {
@@ -92,12 +94,15 @@ public class Menunlogiikka {
 
         pelaaja.pisteetTesti();
         
+        this.yksinpeli = new Yksinpeli(pelaaja, kl);        
 
-        kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
+        this.yksinpeli.pelinLoop();
+
+        // kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
     }
 
-    // Kysytään pelaajien määrä ja pelaajien nimet ja luodaan lista pelaajistas.
+    // Kysytään pelaajien määrä ja pelaajien nimet ja luodaan lista pelaajista.
     private void initMoninpeli() {
         tyhjennaTerminaali();
         
