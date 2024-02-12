@@ -59,41 +59,31 @@ public class Kayttoliittyma {
         System.out.println("----Pelaajan " + pelaaja + " vuoro.----");
     }
 
-    public void piirraPisteKortti(Map<String, Integer> pisteet) {
-        
-        // | Ykköset                   |
-        // | Kakkoset                  |
-        // | Kolmoset                  |
-        // | Neloset                   |
-        // | Viitoset                  |
-        // | Kuutoset                  |
-        // |                           |
-        // | Valisumma                 |
-        // |                           |
-        // | Pari                      |
-        // | Kaksi paria               |
-        // | Kolme samaa               |
-        // |                           |
-        // | Nelja samaa               |
-        // | Pikku suora               |
-        // | Iso suora                 |
-        // | Taysikäsi                 |
-        // | Sattuma                   |
-        // | Yatzy                     |
-        // |                           |
-        // | Summa                     |
-        System.out.println(
-            """
-            -----------------------------
-            |       PISTE KORTTI        |
-            |                           |
-            """
-        );
+    public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
 
         for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
+            // Jos kyseessä on ykköset niin tulostetaan piste kortin otsikko.
+            if(sisalto.getKey().equals("Ykköset")) {
+                System.out.println("-----------------------------");
+                System.out.println("|       PISTE KORTTI        |");
+                System.out.printf("| %-25s |\n", nimi);
+                System.out.printf("| %-25s |\n", " ");
+            }
+
+            // Jos kyseessä on välisumma, pari, summa tai neljä samaa niin tulostetaan tyhjä rivi ennen numeroa.
+            if(sisalto.getKey().equals("Välisumma") || 
+                sisalto.getKey().equals("Summa") || 
+                sisalto.getKey().equals("Neljä samaa") ||
+                sisalto.getKey().equals("Pari")) 
+            {
+                System.out.printf("| %-25s |\n", " ");
+            }
+
+            // Tulostetaan piste kortin arvot.
             System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisalto.getValue());
         }
 
+        // Tulostetaan piste kortin alaosa.
         System.out.println(
             """
             |                           |

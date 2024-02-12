@@ -2,7 +2,7 @@
 package Kayttoliittyma;
 import java.util.Scanner;
 
-import Pistekirjaus.Pelaaja;
+import Pelaaja.Pelaaja;
 
 public class Menunlogiikka {
 
@@ -93,7 +93,7 @@ public class Menunlogiikka {
         pelaaja.pisteetTesti();
         
 
-        kl.piirraPisteKortti(pelaaja.getPisteet());
+        kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
     }
 
