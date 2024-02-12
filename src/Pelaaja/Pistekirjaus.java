@@ -1,21 +1,24 @@
-package Pistekirjaus;
+// Lisääjä/Tekijä: Simo
+package Pelaaja;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-// import java.io.FileWriter;
-// import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class Pistekirjaus {
-    HashMap<String, Integer> pisteet = new HashMap<>();
+// Muuta hashmapit linkedhashmapeiks
+
+public class Pistekirjaus{
+    LinkedHashMap<String, Integer> mahdollisetPisteet = new LinkedHashMap<String, Integer>();
+    LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
     File pisteetKansio = new File("src/pisteet/");
 
     public void tallennaPisteetTiedostoon(String pelaajannimi) {
         try {
             PrintWriter kirjoittaja = new PrintWriter(new File("src/pisteet/" + pelaajannimi + "_pisteet.txt"));
 
-            for (HashMap.Entry<String, Integer> merkinta : pisteet.entrySet()) {
+            for (Map.Entry<String, Integer> merkinta : pisteet.entrySet()) {
                 kirjoittaja.println(merkinta.getKey() + ": " + merkinta.getValue());
             }
 
@@ -28,7 +31,7 @@ public class Pistekirjaus {
     }
 
     public void luePisteetTiedostosta(String pelaajanNimi) {
-        HashMap<String, Integer> luetutPisteet = new HashMap<>();
+        LinkedHashMap<String, Integer> luetutPisteet = new LinkedHashMap<String, Integer>();
 
         try {
             BufferedReader lukija = new BufferedReader(new FileReader("src/pisteet/" + pelaajanNimi + "_pisteet.txt"));
@@ -83,10 +86,15 @@ public class Pistekirjaus {
         this.pisteet.put(nimi, pisteet);
     }
 
-    public int getPisteet(String nimi) {
-        return this.pisteet.get(nimi);
-    }
+    // Possibly obsolete
 
+    // public LinkedHashMap<String, Integer> getPisteet() {
+    //     return this.pisteet;
+    // }
+
+    // public LinkedHashMap<String, Integer> getMahdollisetPisteet() {
+    //     return this.mahdollisetPisteet;
+    // }
 
 
 

@@ -1,7 +1,7 @@
-// Tekijä: Simo
+// Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
-
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Kayttoliittyma {
 
@@ -52,55 +52,76 @@ public class Kayttoliittyma {
         System.out.println("----Anna pelaajan: " + pelaajanIndeksi + " nimi.----");
     }
 
-    public void piirraUusiPeli() {
-        System.out.println("----Uusi peli.----");
-    }
-
     public void piirraPelaajanVuoro(String pelaaja) {
         System.out.println("----Pelaajan " + pelaaja + " vuoro.----");
     }
+    // Pelaajan vaihtoehdot pelissä
+    public void piirraPelaajanVaihtoehdot(ArrayList<Integer> vaihtoehdot) {
+        ArrayList<String> piirrettavatVaihtoehdot = new ArrayList<>();
+        for(int vaihtoehto : vaihtoehdot) {
+            switch (vaihtoehto) {
+                case 1:
+                    piirrettavatVaihtoehdot.add("|   1 -> Heitä nopat   |");
+                    break;
+                case 2:
+                    piirrettavatVaihtoehdot.add("| 2 -> Lukitse noppia  |");
+                    break;
+                case 3:
+                    piirrettavatVaihtoehdot.add("| 3 -> Valitse pisteet |");
+                    break;
+                default:
+                    this.piirraVirheSyotto();
+                    break;
+            }
 
-    public void piirraPisteKortti(HashMap<String, Integer> pisteet) {
-        
+        }
+
+        System.out.println("------------------------");
+        System.out.println("|                      |");
+        for(String vaihtoehto :piirrettavatVaihtoehdot) {
+            System.out.println(vaihtoehto);
+        }
+        System.out.println("|     0 -> Lopeta      |");
+        System.out.println("|                      |");
+        System.out.println("------------------------");
+    }
+
+    // Pistekortti
+    public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
+
+        for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
+            // Jos kyseessä on ykköset niin tulostetaan piste kortin otsikko.
+            if(sisalto.getKey().equals("Ykköset")) {
+                System.out.println("-----------------------------");
+                System.out.println("|       PISTE KORTTI        |");
+                System.out.printf("| %-25s |\n", nimi);
+                System.out.printf("| %-25s |\n", " ");
+            }
+
+            // Jos kyseessä on välisumma, pari, summa tai neljä samaa niin tulostetaan tyhjä rivi ennen numeroa.
+            if(sisalto.getKey().equals("Välisumma") || 
+                sisalto.getKey().equals("Summa") || 
+                sisalto.getKey().equals("Neljä samaa") ||
+                sisalto.getKey().equals("Pari")) 
+            {
+                System.out.printf("| %-25s |\n", " ");
+            }
+
+            // Tulostetaan piste kortin arvot.
+            System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisalto.getValue());
+        }
+
+        // Tulostetaan piste kortin alaosa.
         System.out.println(
             """
-            -----------------------------
-            |       PISTE KORTTI        |
-            |                           |
-            | Ykköset                   |
-            | Kakkoset                  |
-            | Kolmoset                  |
-            | Neloset                   |
-            | Viitoset                  |
-            | Kuutoset                  |
-            |                           |
-            | Valisumma                 |
-            |                           |
-            | Pari                      |
-            | Kaksi paria               |
-            | Kolme samaa               |
-            |                           |
-            | Nelja samaa               |
-            | Pikku suora               |
-            | Iso suora                 |
-            | Taysikäsi                 |
-            | Sattuma                   |
-            | Yatzy                     |
-            |                           |
-            | Summa                     |
             |                           |
             -----------------------------
-
             """
         );
     }
 
-    public void piirraPelinLoppuminen() {
-        System.out.println("---- Peli loppui.----");
-    }
-
-    // Muista lisätä indeksi
-
+    // Nopat
+    // Alin metodi
     public void piirraNopat(int[] nopat) {
         // Tehdään taulukko johon tallenetaan kaikki nopat linja kerrallaan ja peräkäin.
         // Tällein saadaan nopat piirrettyä vierekkäin samalle linjalle.

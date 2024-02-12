@@ -1,4 +1,5 @@
-package Nopat;
+// Lisääjä/Tekijä: Jimi
+package Pelaaja;
 
 import java.util.Random;
 import java.util.Scanner;
