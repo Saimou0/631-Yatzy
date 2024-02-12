@@ -69,6 +69,11 @@ public class Kayttoliittyma {
                 case 3:
                     piirrettavatVaihtoehdot.add("| 3 -> Valitse pisteet |");
                     break;
+
+                case 4:
+                    piirrettavatVaihtoehdot.add("|    4 -> Takaisin     |");
+                    break;
+
                 default:
                     this.piirraVirheSyotto();
                     break;
@@ -89,7 +94,12 @@ public class Kayttoliittyma {
     // Pistekortti
     public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
 
+        // -1 arvo tarkoittaa tyhjää arvoa. Arvoa jota pelaaja ei ole vielä valinnut
         for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
+            int sisaltoArvo = sisalto.getValue();
+            if(sisaltoArvo == -1) {
+                sisaltoArvo = 0;
+            }
             // Jos kyseessä on ykköset niin tulostetaan piste kortin otsikko.
             if(sisalto.getKey().equals("Ykköset")) {
                 System.out.println("-----------------------------");
@@ -108,7 +118,7 @@ public class Kayttoliittyma {
             }
 
             // Tulostetaan piste kortin arvot.
-            System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisalto.getValue());
+            System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisaltoArvo);
         }
 
         // Tulostetaan piste kortin alaosa.
@@ -129,6 +139,25 @@ public class Kayttoliittyma {
         for(int i = 0; i < 5; i++) {
             linjat[i] = "";
         }
+
+
+        // COPILOT
+        /*
+        One area of potential optimization is in the piirraNopat method in your Kayttoliittyma.java file.
+        Currently, you're creating a new noppienLinjat array for each possible dice value inside the loop. This could be optimized by creating a 2D array or a Map outside the loop that maps dice values to their corresponding string arrays. This way, you only need to look up the correct string array for each dice value, rather than recreating it each time.
+        Here's a simplified example of how you could do this:
+
+        Map<Integer, String[]> diceFaces = new HashMap<>();
+        diceFaces.put(1, new String[] {"---------", "|       |", "|   1   |", "|       |", "---------"});
+        // ... add the rest of the dice faces ...
+
+        for(int noppa : nopat) {
+            noppienLinjat = diceFaces.get(noppa);
+            // ... rest of your code ...
+        }
+
+        This change could make your code more efficient by reducing the number of objects created and could also make your code cleaner and easier to read. 
+        */
 
         // Tallennetaan yksi noppa linja kerrallaan noppienLinjat-taulukkoon.
         String[] noppienLinjat = null;

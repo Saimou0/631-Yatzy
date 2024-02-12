@@ -94,11 +94,12 @@ public class Menunlogiikka {
 
         pelaaja.pisteetTesti();
         
-        this.yksinpeli = new Yksinpeli(pelaaja, kl);        
+        this.yksinpeli = new Yksinpeli(pelaaja, kl);
+
+        // kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
         this.yksinpeli.pelinLoop();
 
-        // kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
     }
 

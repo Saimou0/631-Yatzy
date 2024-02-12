@@ -1,15 +1,12 @@
 // Lisääjä/Tekijä: Simo
 package Pelaaja;
-// import java.util.LinkedHashMap;
-
 import java.util.Map;
 
 public class Pelaaja{
-    // Map<String, Integer> pisteet = new LinkedHashMap<>();
-
     Pistekirjaus pistekirjaus;
     Nopat nopat;
     String nimi;
+    public int vuorojenMaara = 0;
 
     public Pelaaja(String nimi) {
         this.nimi = nimi;
@@ -22,7 +19,7 @@ public class Pelaaja{
     }
 
     public void pisteetTesti() {
-        pistekirjaus.pisteet.put("Ykköset", 1);
+        pistekirjaus.pisteet.put("Ykköset", -1);
         pistekirjaus.pisteet.put("Kakkoset", 2);
         pistekirjaus.pisteet.put("Kolmoset", 3);
         pistekirjaus.pisteet.put("Neloset", 4);
@@ -48,15 +45,6 @@ public class Pelaaja{
         pistekirjaus.tallennaPisteetTiedostoon(nimi);
 
         pistekirjaus.luePisteetTiedostosta(nimi);
-
-        // try {
-        //     Thread.sleep(5000);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-
-        // System.out.println(pistekirjaus.onkoTiedostoja());
-
     }
 
     // Poistaa KAIKKI piste tiedostot
@@ -81,8 +69,9 @@ public class Pelaaja{
     }
 
     // Pisteiden lisääminen
-    public void lisaaPisteet(String nimi, int pisteet) {
-        pistekirjaus.pisteet.put(nimi, pisteet);
+    // Tarvitsee pisteiden laskennan ja 0
+    public void lisaaPisteet(String nimi) {
+        pistekirjaus.pisteet.put(nimi, 10);
     }
 
     public void lisaaMahdollisetPisteet(String nimi, int pisteet) {
