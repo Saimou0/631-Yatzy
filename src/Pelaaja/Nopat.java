@@ -43,12 +43,6 @@ public class Nopat {
         return lukitutNopat;
     }
 
-    public void piirraNopat() {
-        Scanner scanner = new Scanner(System.in);
-        Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
-
-        int heittojaJaljella = 3;
-
         while (heittojaJaljella > 0) {
             kayttoliittyma.piirraNopat(nopat);
 
