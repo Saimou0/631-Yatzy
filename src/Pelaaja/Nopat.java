@@ -78,7 +78,6 @@ public class Nopat {
                     break;
 
                 case 3:
-                    // Tässä voit lisätä koodin pisteiden valitsemiseksi
                     break;
 
                 case 0:
