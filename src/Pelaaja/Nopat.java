@@ -1,6 +1,6 @@
 // Lisääjä/Tekijä: Jimi
 
-package Kayttoliittyma;
+package Pelaaja;
 
 import java.util.Scanner;
 
