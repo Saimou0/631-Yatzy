@@ -1,75 +1,94 @@
 // Lisääjä/Tekijä: Jimi
-package Pelaaja;
 
-import java.util.Random;
+package Kayttoliittyma;
+
 import java.util.Scanner;
 
 public class Nopat {
 
-    public static void main(String[] args) {
-        int[] nopat = new int[5];
-        boolean[] lukitut = new boolean[5];
-        int heittoja = 3;
+    private int[] nopat;
+    private boolean[] lukitutNopat;
+    private final int NOPPAMAARA = 5;
 
-        Scanner lukija = new Scanner(System.in);
-
-        while (heittoja > 0) {
-            
-            heitaNopat(nopat, lukitut);
-            
-            tulostaNopat(nopat, lukitut);
-
-            heittoja--;
-
-            if (heittoja > 0) {
-                System.out.println("Heittoja jäljellä: " + heittoja);
-                System.out.print("Lukitse nopat (esim. 1 3 5): ");
-
-                
-                lukitseNopat(nopat, lukitut, lukija.nextLine());
-            }
-        }
-
-        int pisteet = laskePisteet(nopat);
-        System.out.println("Pisteet: " + pisteet);
-
-        lukija.close();
+    public Nopat() {
+        this.nopat = new int[NOPPAMAARA];
+        this.lukitutNopat = new boolean[NOPPAMAARA];
     }
 
-    private static int laskePisteet(int[] nopat) {
-        return 0;
-    }
-
-    
-    public static void heitaNopat(int[] nopat, boolean[] lukitut) {
-        Random random = new Random();
-
-        for (int i = 0; i < nopat.length; i++) {
-            if (!lukitut[i]) {
-                nopat[i] = random.nextInt(6) + 1; 
+    public void heitaNopat() {
+        for (int i = 0; i < NOPPAMAARA; i++) {
+            if (!lukitutNopat[i]) {
+                nopat[i] = (int) (Math.random() * 6) + 1;
             }
         }
     }
 
-   
-    public static void tulostaNopat(int[] nopat, boolean[] lukitut) {
-        System.out.print("Nopat: ");
-        for (int i = 0; i < nopat.length; i++) {
-            if (lukitut[i]) {
-                System.out.print("[" + nopat[i] + "] ");
-            } else {
-                System.out.print(nopat[i] + " ");
-            }
+    public void lukitseNoppa(int indeksi) {
+        if (indeksi >= 0 && indeksi < NOPPAMAARA) {
+            lukitutNopat[indeksi] = true;
         }
-        System.out.println();
     }
 
-   
-    public static void lukitseNopat(int[] nopat, boolean[] lukitut, String lukitse) {
-        String[] lukitseLista = lukitse.split(" ");
-        for (String s : lukitseLista) {
-            int indeksi = Integer.parseInt(s) - 1;
-            lukitut[indeksi] = true;
+    public void vapautaNoppa(int indeksi) {
+        if (indeksi >= 0 && indeksi < NOPPAMAARA) {
+            lukitutNopat[indeksi] = false;
+        }
+    }
+
+    public int[] getNopat() {
+        return nopat;
+    }
+
+    public boolean[] getLukitutNopat() {
+        return lukitutNopat;
+    }
+
+    public void piirraNopat() {
+        Scanner scanner = new Scanner(System.in);
+        Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
+
+        int heittojaJaljella = 3;
+
+        while (heittojaJaljella > 0) {
+            kayttoliittyma.piirraNopat(nopat);
+
+            System.out.println("Heittoja jäljellä: " + heittojaJaljella);
+            System.out.println("Valitse toiminto:");
+            System.out.println("1 -> Heitä nopat");
+            System.out.println("2 -> Lukitse noppia");
+            System.out.println("3 -> Valitse pisteet");
+            System.out.println("0 -> Lopeta");
+
+            int valinta = scanner.nextInt();
+
+            switch (valinta) {
+                case 1:
+                    heitaNopat();
+                    heittojaJaljella--;
+                    break;
+
+                case 2:
+                    kayttoliittyma.piirraNopat(nopat);
+                    System.out.println("Anna lukittavien noppien indeksit (esim. 1 3 5):");
+                    String lukittavatNopat = scanner.nextLine();
+                    String[] indeksit = lukittavatNopat.split(" ");
+                    for (String indeksi : indeksit) {
+                        lukitseNoppa(Integer.parseInt(indeksi) - 1);
+                    }
+                    break;
+
+                case 3:
+                    // Tässä voit lisätä koodin pisteiden valitsemiseksi
+                    break;
+
+                case 0:
+                    heittojaJaljella = 0;
+                    break;
+
+                default:
+                    kayttoliittyma.piirraVirheSyotto();
+                    break;
+            }
         }
     }
 }
