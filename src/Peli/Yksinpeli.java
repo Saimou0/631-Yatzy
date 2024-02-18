@@ -43,6 +43,16 @@ public class Yksinpeli {
         -Pystyy valitsemaan nopan ja se noppa lukitaan, jos valitsee avatun nopan niin se avataan.
     */
 
+    /*
+        Pelaaja tekee valinnan ja keskus metodi, kutsuu metodeja, jotka päivittää pelin eri komponentit.
+        -Nopat
+        -Pisteet
+        -Nykyinen pelaaja
+        -Pelaajan vuorojen määrä
+        -Käyttöliittymän 
+    */
+
+    
     public void pelinLoop() {
         boolean peliJatkuu = true;
         while (peliJatkuu) {
@@ -51,128 +61,61 @@ public class Yksinpeli {
                 // Jos pelaa jo valmista tiedostoa vastaan, vertaa pisteitä.
             }
 
-            if(heittojenMaraa == 0) {
-                // Pakota pelaaja valitsemaan pisteen.
-            }
+            pelinPaivitys();
 
-            // Kysy heittääkö
-            // Kysy lukitseeko
-            // Kysy valitseeko pisteen
+            
 
             peliJatkuu = false;
 
         }
     }
 
-    // MAHDOLLISUUS EHKÄ
+    public void pelinPaivitys() {
+        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
+        kayttoliittyma.piirraNopat(pelaaja.heitaJaPalautaNopat());
+        this.kayttoliittymanPiirtaminen();
 
-    // public void kayttoliittymanPiirtaminen(int syotto) {
-    //     switch (syotto) {
-    //         case VALITSE_PISTEET_TILA:
-    //             if(tilaLista.contains(VALITSE_PISTEET_TILA)) {
-    //                 tilaLista.remove(VALITSE_PISTEET_TILA);
-    //             } else {
-    //                 tilaLista.add(VALITSE_PISTEET_TILA);
-    //             }
-    //             break;
-        
-    //         case HEITA_TILA:
-    //             if(tilaLista.contains(HEITA_TILA)) {
-    //                 tilaLista.remove(HEITA_TILA);
-    //             } else {
-    //                 tilaLista.add(HEITA_TILA);
-    //             }
-    //             break;
-            
-    //         case LUKITSE_TILA:
-    //             if(tilaLista.contains(LUKITSE_TILA)) {
-    //                 tilaLista.remove(LUKITSE_TILA);
-    //             } else {
-    //                 tilaLista.add(LUKITSE_TILA);
-    //             }
-    //             break;
+    }
 
-    //         case TAKAISIN:
-    //             if(tilaLista.contains(TAKAISIN)) {
-    //                 tilaLista.remove(TAKAISIN);
-    //             } else {
-    //                 tilaLista.add(TAKAISIN);
-    //             }
-    //             break;
-            
-    //         default:
-    //             break;
-    //     }
-    // }
+    public void kayttoliittymanPiirtaminen() {
+        if(heittojenMaraa == 0) {
+            tilaLista.add(VALITSE_PISTEET_TILA);
+            tilaLista.remove(HEITA_TILA);
+            tilaLista.remove(LUKITSE_TILA);
+        } else {
+            tilaLista.add(HEITA_TILA);
+            tilaLista.add(LUKITSE_TILA);
+            tilaLista.add(VALITSE_PISTEET_TILA);
+        }
 
-    // public void paivitaKayttoliittyma() {
-    //     kayttoliittyma.piirraPelaajanVaihtoehdot(tilaLista);
-    // }
-
+        kayttoliittyma.piirraPelaajanVaihtoehdot(tilaLista);
+    }
 
     // MIETI VIELÄ
-
     public int pelaajanSyotto() {
 
         try {
             String kayttajanSyotto = lukija.nextLine();
             int syotonNumero = Integer.parseInt(kayttajanSyotto);
             return syotonNumero;
-            // switch (syotonNumero) {
-            //     case 1:
-            //         return 1;
-            
-            //     case 2:
-            //         return 2;
-                
-            //     case 3:
-            //         return 3;
-            //     default:
-            //         kayttoliittyma.piirraVirheSyotto();
-            //         break;
-            // }
 
         } catch (Exception e) {
+            kayttoliittyma.piirraVirheSyotto();
             return -1;
         }
         
-        // kayttoliittyma.piirraVirheSyotto();
-        // return -1;
-
     }
 
     public int pelaajanNoppienSyotto() {
         try {
             String kayttajanSyotto = lukija.nextLine();
             int syotonNumero = Integer.parseInt(kayttajanSyotto);
-
-            switch (syotonNumero) {
-                case 1:
-                    return 1;
-            
-                case 2: 
-                    return 2;
-                
-                case 3:
-                    return 3;
-                
-                case 4:
-                    return 4;
-                
-                case 5:
-                    return 5;
-
-                case 6:
-                    return 6;
-                default:
-                    break;
-            }
+            return syotonNumero;
 
         } catch (Exception e) {
+            kayttoliittyma.piirraVirheSyotto();
             return -1;
         }
-
-        return -1;
     }
 
     // VARMAAN TARPEEKS HYVÄ
@@ -180,32 +123,65 @@ public class Yksinpeli {
         try {
             String kayttajanSyotto = lukija.nextLine();
 
+
+            // Tarkistaa onko pelaaja jo valinnut pisteen, jos eivät niin lisätään pisteet muistiin.
             switch (kayttajanSyotto) {
                 case "Ykköset":
-                    pelaaja.lisaaPisteet("Ykköset");
+                    if(!pelaaja.valitutPisteet.contains("Ykköset")) {
+                        pelaaja.lisaaPisteet("Ykköset");
+                        pelaaja.valitutPisteet.add("Ykköset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
                 
                 case "Kakkoset":
-                    pelaaja.lisaaPisteet("Kakkoset");
+                    if(!pelaaja.valitutPisteet.contains("Kakkoset")) {
+                        pelaaja.lisaaPisteet("Kakkoset");
+                        pelaaja.valitutPisteet.add("Kakkoset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
                 
                 case "Kolmoset":
-                    pelaaja.lisaaPisteet("Kolmoset");
+                    if(!pelaaja.valitutPisteet.contains("Kolmoset")) {
+                        pelaaja.lisaaPisteet("Kolmoset");
+                        pelaaja.valitutPisteet.add("Kolmoset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
                 
                 case "Neloset":
-                    pelaaja.lisaaPisteet("Neloset");
+                    if(!pelaaja.valitutPisteet.contains("Neloset")) {
+                        pelaaja.lisaaPisteet("Neloset");
+                        pelaaja.valitutPisteet.add("Neloset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
                 
                 case "Viitoset":
-                    pelaaja.lisaaPisteet("Viitoset");
+                    if(!pelaaja.valitutPisteet.contains("Viitoset")) {
+                        pelaaja.lisaaPisteet("Viitoset");
+                        pelaaja.valitutPisteet.add("Viitoset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
 
                 case "Kuutoset":
-                    pelaaja.lisaaPisteet("Kuutoset");
+                    if(!pelaaja.valitutPisteet.contains("Kuutoset")) {
+                        pelaaja.lisaaPisteet("Kuutoset");
+                        pelaaja.valitutPisteet.add("Kuutoset");
+                    } else {
+                        System.out.println("Olet jo valinnut tämän pisteen");
+                    }
                     break;
 
                 default:
+                    kayttoliittyma.piirraVirheSyotto();
                     break;
             }
         } catch(Exception e) {

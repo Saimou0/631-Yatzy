@@ -1,5 +1,6 @@
 // Lisääjä/Tekijä: Simo
 package Pelaaja;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Pelaaja{
@@ -7,6 +8,9 @@ public class Pelaaja{
     Nopat nopat;
     String nimi;
     public int vuorojenMaara = 0;
+
+    // Seuraatan mitkä pisteet pelaaja on jo valinnut
+    public ArrayList<String> valitutPisteet = new ArrayList<>();
 
     public Pelaaja(String nimi) {
         this.nimi = nimi;
@@ -45,6 +49,34 @@ public class Pelaaja{
         pistekirjaus.tallennaPisteetTiedostoon(nimi);
 
         pistekirjaus.luePisteetTiedostosta(nimi);
+
+        // nopat.heitaNopat();
+
+        // for(int i = 0; i < nopat.getNopat().length; i++) {
+        //     System.out.println(nopat.getNopat()[i]);
+        // }
+
+        // for(int i = 0; i < nopat.getNopat().length; i++) {
+        //     System.out.println(nopat.getLukitutNopat()[i]);
+        // }
+
+        // nopat.lukitseNoppa(1);
+        // nopat.lukitseNoppa(3);
+        // nopat.lukitseNoppa(0);
+        // System.out.println(" ");
+
+        // for(int i = 0; i < nopat.getNopat().length; i++) {
+        //     System.out.println(nopat.getLukitutNopat()[i]);
+        // }
+
+        // nopat.vapautaNoppa(1);
+
+        // System.out.println(" ");
+
+        // for(int i = 0; i < nopat.getNopat().length; i++) {
+        //     System.out.println(nopat.getLukitutNopat()[i]);
+        // }
+
     }
 
     // Poistaa KAIKKI piste tiedostot
@@ -55,8 +87,17 @@ public class Pelaaja{
     }
 
     // Nopat
-    public int[] heitaNopat() {
-        return new int[]{1, 2, 5, 1, 2};
+    public int[] heitaJaPalautaNopat() {
+        nopat.heitaNopat();
+        return nopat.getNopat();
+    }
+
+    public void lukitseNoppa(int indeksi) {
+        nopat.lukitseNoppa(indeksi);
+    }
+
+    public boolean[] getLukitutNopat() {
+        return nopat.getLukitutNopat();
     }
 
     // Pisteiden hakeminen

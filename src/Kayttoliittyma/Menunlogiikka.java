@@ -98,6 +98,8 @@ public class Menunlogiikka {
 
         // kl.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
+        this.tyhjennaTerminaali();
+
         this.yksinpeli.pelinLoop();
 
 

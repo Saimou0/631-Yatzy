@@ -69,7 +69,6 @@ public class Kayttoliittyma {
                 case 3:
                     piirrettavatVaihtoehdot.add("| 3 -> Valitse pisteet |");
                     break;
-
                 case 4:
                     piirrettavatVaihtoehdot.add("|    4 -> Takaisin     |");
                     break;
@@ -116,6 +115,9 @@ public class Kayttoliittyma {
             {
                 System.out.printf("| %-25s |\n", " ");
             }
+
+
+            // TODO: jos arvo on -1 niin tulostetaan tyhjä arvo.
 
             // Tulostetaan piste kortin arvot.
             System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisaltoArvo);
