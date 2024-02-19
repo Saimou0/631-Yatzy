@@ -90,14 +90,4 @@ public class Pistekirjaus {
         this.pisteet.put(nimi, pisteet);
     }
 
-    // Possibly obsolete
-
-    // public LinkedHashMap<String, Integer> getPisteet() {
-    // return this.pisteet;
-    // }
-
-    // public LinkedHashMap<String, Integer> getMahdollisetPisteet() {
-    // return this.mahdollisetPisteet;
-    // }
-
 }

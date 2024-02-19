@@ -21,13 +21,14 @@ public class Yatzy {
          - Aloitusvalikko
          - Yksinpelin ja moninpelin alustus
          - Toimiva pisteiden tallennus ja luku tekstitiedostosta
+         - Nopat
+         - Pelin logiikka / pelin looppi yksinpeli
         */
-
+        
         // Tekemättä
         /*
-         - Nopat
          - Pisteiden laskenta
-         - Pelin logiikka / pelin looppi
+         - Pelin logiikka / pelin looppi moninpeli
          - Pelin loppuminen
          - Pelaajien pisteiden vertailu
          

@@ -1,16 +1,16 @@
 // Lisääjä/Tekijä: Simo
 package Pelaaja;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Pelaaja{
     Pistekirjaus pistekirjaus;
     Nopat nopat;
     String nimi;
-    public int vuorojenMaara = 0;
+    public int vuorojenMaara = 1;
 
     // Seuraatan mitkä pisteet pelaaja on jo valinnut
-    public ArrayList<String> valitutPisteet = new ArrayList<>();
+    public LinkedHashMap<String, Boolean> valitutPisteet = new LinkedHashMap<String, Boolean>();
 
     public Pelaaja(String nimi) {
         this.nimi = nimi;
@@ -24,58 +24,30 @@ public class Pelaaja{
 
     public void pisteetTesti() {
         pistekirjaus.pisteet.put("Ykköset", -1);
-        pistekirjaus.pisteet.put("Kakkoset", 2);
-        pistekirjaus.pisteet.put("Kolmoset", 3);
-        pistekirjaus.pisteet.put("Neloset", 4);
-        pistekirjaus.pisteet.put("Viitoset", 5);
-        pistekirjaus.pisteet.put("Kuutoset", 6);
+        pistekirjaus.pisteet.put("Kakkoset", -1);
+        pistekirjaus.pisteet.put("Kolmoset", -1);
+        pistekirjaus.pisteet.put("Neloset", -1);
+        pistekirjaus.pisteet.put("Viitoset", -1);
+        pistekirjaus.pisteet.put("Kuutoset", -1);
 
-        pistekirjaus.pisteet.put("Välisumma", 21);
+        pistekirjaus.pisteet.put("Välisumma", -1);
 
-        pistekirjaus.pisteet.put("Pari", 10);
-        pistekirjaus.pisteet.put("Kaksi paria", 20);
-        pistekirjaus.pisteet.put("Kolme samaa", 30);
+        pistekirjaus.pisteet.put("Pari", -1);
+        pistekirjaus.pisteet.put("Kaksi paria", -1);
+        pistekirjaus.pisteet.put("Kolme samaa", -1);
 
-        pistekirjaus.pisteet.put("Neljä samaa", 30);
-        pistekirjaus.pisteet.put("Pikku suora", 30);
-        pistekirjaus.pisteet.put("Iso suora", 30);
-        pistekirjaus.pisteet.put("Taysikäsi", 30);
-        pistekirjaus.pisteet.put("Sattuma", 30);
-        pistekirjaus.pisteet.put("Yatzy", 30);
+        pistekirjaus.pisteet.put("Neljä samaa", -1);
+        pistekirjaus.pisteet.put("Pikku suora", -1);
+        pistekirjaus.pisteet.put("Iso suora", -1);
+        pistekirjaus.pisteet.put("Taysikäsi", -1);
+        pistekirjaus.pisteet.put("Sattuma", -1);
+        pistekirjaus.pisteet.put("Yatzy", -1);
         
-        pistekirjaus.pisteet.put("Summa", 30);
-
+        pistekirjaus.pisteet.put("Summa", -1);
 
         pistekirjaus.tallennaPisteetTiedostoon(nimi);
 
         pistekirjaus.luePisteetTiedostosta(nimi);
-
-        // nopat.heitaNopat();
-
-        // for(int i = 0; i < nopat.getNopat().length; i++) {
-        //     System.out.println(nopat.getNopat()[i]);
-        // }
-
-        // for(int i = 0; i < nopat.getNopat().length; i++) {
-        //     System.out.println(nopat.getLukitutNopat()[i]);
-        // }
-
-        // nopat.lukitseNoppa(1);
-        // nopat.lukitseNoppa(3);
-        // nopat.lukitseNoppa(0);
-        // System.out.println(" ");
-
-        // for(int i = 0; i < nopat.getNopat().length; i++) {
-        //     System.out.println(nopat.getLukitutNopat()[i]);
-        // }
-
-        // nopat.vapautaNoppa(1);
-
-        // System.out.println(" ");
-
-        // for(int i = 0; i < nopat.getNopat().length; i++) {
-        //     System.out.println(nopat.getLukitutNopat()[i]);
-        // }
 
     }
 
@@ -87,16 +59,28 @@ public class Pelaaja{
     }
 
     // Nopat
-    public int[] heitaJaPalautaNopat() {
+    // Heittää nopat
+    public void heitaNopat() {
         nopat.heitaNopat();
+    }
+    
+    // Palauttaa nopat
+    public int[] getNopat() {
         return nopat.getNopat();
     }
 
-    public void lukitseNoppa(int indeksi) {
-        nopat.lukitseNoppa(indeksi);
+    // Lukitsee ja avaa nopan
+    public void lukitseJaVapautaNoppia(int indeksi) {
+        if(nopat.lukitutNopat.get(indeksi) == true) {
+            nopat.vapautaNoppa(indeksi);
+        } else {
+            nopat.lukitseNoppa(indeksi);
+        }
     }
 
-    public boolean[] getLukitutNopat() {
+    // Palauttaa lukitut nopat
+    public LinkedHashMap<Integer, Boolean> getLukitutNopat() {
+        // System.out.println(nopat.getLukitutNopat().values());
         return nopat.getLukitutNopat();
     }
 
@@ -105,18 +89,20 @@ public class Pelaaja{
         return pistekirjaus.pisteet;
     }
 
+    // Palautaa mahdolliset pisteet
     public Map<String, Integer> getMahdollisetPisteet() {
         return pistekirjaus.mahdollisetPisteet;
     }
 
     // Pisteiden lisääminen
-    // Tarvitsee pisteiden laskennan ja 0
+    // Tarvitsee pisteiden laskennan
     public void lisaaPisteet(String nimi) {
         pistekirjaus.pisteet.put(nimi, 10);
     }
 
+    // Lisää mahdolliset pisteet listaan.
     public void lisaaMahdollisetPisteet(String nimi, int pisteet) {
-        pistekirjaus.pisteet.put(nimi, pisteet);
+        pistekirjaus.mahdollisetPisteet.put(nimi, pisteet);
     }
 
     
