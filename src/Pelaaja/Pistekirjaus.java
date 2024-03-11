@@ -94,7 +94,38 @@ public class Pistekirjaus{
 
     // public LinkedHashMap<String, Integer> getMahdollisetPisteet() {
     //     return this.mahdollisetPisteet;
-    // }
+    public class Pistekirjaus {
+    LinkedHashMap<String, Integer> mahdollisetPisteet = new LinkedHashMap<String, Integer>();
+    LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
+
+    public void laskeMahdollisetPisteet(int[] nopat) {
+        mahdollisetPisteet.clear();
+        int ykkostenSumma = laskeNopanSumma(nopat, 1);
+        mahdollisetPisteet.put("Ykköset", ykkostenSumma);
+        
+    }
+
+    private int laskeNopanSumma(int[] nopat, int numero) {
+        int summa = 0;
+        for (int noppa : nopat) {
+            if (noppa == numero) {
+                summa += numero;
+            }
+        }
+        return summa;
+    }
+
+    public void tallennaPisteetTiedostoon(String pelaajannimi) {
+        
+    }
+
+    public void luePisteetTiedostosta(String pelaajanNimi) {
+       
+    }
+
+    
+}
+    }
 
 
 
