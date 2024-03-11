@@ -94,9 +94,7 @@ public class Pistekirjaus{
 
     // public LinkedHashMap<String, Integer> getMahdollisetPisteet() {
     //     return this.mahdollisetPisteet;
-    public class Pistekirjaus {
-    LinkedHashMap<String, Integer> mahdollisetPisteet = new LinkedHashMap<String, Integer>();
-    LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
+    
 
     public void laskeMahdollisetPisteet(int[] nopat) {
         mahdollisetPisteet.clear();
