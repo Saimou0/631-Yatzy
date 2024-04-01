@@ -8,7 +8,7 @@ public class Nopat {
 
 
     LinkedHashMap<Integer, Boolean> lukitutNopat = new LinkedHashMap<Integer, Boolean>();
-    private int[] nopat = {1, 1, 1, 1, 1};
+    private int[] nopat;
     private final int NOPPAMAARA = 5;
 
     public Nopat() {

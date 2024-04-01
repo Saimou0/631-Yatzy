@@ -94,6 +94,14 @@ public class Pelaaja{
         return pistekirjaus.mahdollisetPisteet;
     }
 
+    public LinkedHashMap<String, Integer> getPisteTiedostot() {
+        return pistekirjaus.getPisteTiedostot();
+    }
+
+    public void luePisteetTiedostosta(String nimi) {
+        pistekirjaus.luePisteetTiedostosta(nimi);
+    }
+
     // Pisteiden lisääminen
     // Tarvitsee pisteiden laskennan
     public void lisaaPisteet(String nimi) {

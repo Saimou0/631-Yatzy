@@ -52,7 +52,6 @@ public class Menunlogiikka {
     }
 
     private void peliMuodonValinta(int kayttajanSyotto) {
-
         boolean sopivaPeliVaihtoehto = false;
         while (sopivaPeliVaihtoehto == false) {
             
@@ -72,8 +71,6 @@ public class Menunlogiikka {
                 default:
                     break;
             }
-            
-            
         }
     }
     
@@ -93,14 +90,13 @@ public class Menunlogiikka {
         }
 
         pelaaja.pisteetTesti();
-        
+
+        // Luodaan yksinpeli ja annetaan pelaaja ja käyttöliittymä.
         this.yksinpeli = new Yksinpeli(pelaaja, kayttoliittyma);
 
-        // kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
-
+        // Tyhjetään terminaali ja aloitetaan peli.
         kayttoliittyma.tyhjennaTerminaali();
-
-        this.yksinpeli.pelinLoop();
+        yksinpeli.pelinLoop();
 
 
     }
@@ -131,7 +127,6 @@ public class Menunlogiikka {
                 pelaajat[i] = new Pelaaja(nimi);
             }
         }
-
     }
 
     // Utility

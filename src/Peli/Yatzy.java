@@ -32,7 +32,7 @@ public class Yatzy {
          - Pelin loppuminen
          - Pelaajien pisteiden vertailu
          
-         Kaikki mitä tällä hetkellä tulee mieleen. 
+         Kaikki mitä tällä hetkellä tulee mieleen.
         */
     }
     

@@ -62,6 +62,18 @@ public class Pistekirjaus {
         this.pisteet = luetutPisteet;
     }
 
+    public LinkedHashMap<String, Integer> getPisteTiedostot() {
+        String[] tiedostotLista = pisteetKansio.list();
+        LinkedHashMap<String, Integer> tiedostot = new LinkedHashMap<String, Integer>();
+
+        for(int i = 0; i < tiedostotLista.length; i++) {
+            tiedostot.put(tiedostotLista[i], i + 1);
+        }
+
+
+        return tiedostot;
+    } 
+
     // Tarkistaa onko Pisteet kansiossa teksti tiedostoja
     public boolean onkoTiedostoja() {
         if (pisteetKansio.isDirectory() && pisteetKansio.list().length > 0) {

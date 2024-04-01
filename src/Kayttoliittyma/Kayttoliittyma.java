@@ -70,11 +70,29 @@ public class Kayttoliittyma {
     }
 
     // TODO: Tee metodi joka piirtää valitse pisteet käyttöliittymän.
+    
+    public void piirraValitseVastustaja(LinkedHashMap<String, Integer> tiedostot) {
+
+        System.out.println("-----------------------------------------------------");
+        System.out.println("|    Valitse pisteet joita vastaan haluat pelata    |");
+        System.out.println("|                                                   |");
+
+        for(Map.Entry<String, Integer> entry : tiedostot.entrySet()) {
+            System.out.printf("| %-49s |\n", entry.getValue() + " -> " + entry.getKey());
+        }
+
+        System.out.println("|                                                   |");
+        System.out.println("| 0 -> Ei mitään pisteitä vastaan                   |");
+        System.out.println("-----------------------------------------------------");
+
+    }
 
     // Pelaajan vaihtoehdot pelissä
     public void piirraPelaajanVaihtoehdot(LinkedHashMap<String, Integer> vaihtoehdot) {
         ArrayList<String> piirrettavatVaihtoehdot = new ArrayList<>();
 
+        // Käydään vaihtoehdot läpi ja lisätään ne piirrettävään listaan.
+        // Käydään hashmap läpi jos vaihtoehdolla on arvo 1, niin lisätään se piirrettävään listaan, jos arvo on 0, niin ei lisätä sitä listaan.
         for(Map.Entry<String, Integer> entry : vaihtoehdot.entrySet()) {
             if (entry.getKey() == "Heitä" && entry.getValue() == 1){
                 piirrettavatVaihtoehdot.add("|   1 -> Heitä nopat   |");
@@ -93,14 +111,7 @@ public class Kayttoliittyma {
             }
         }
 
-        // for(LinkedHashMap<String, Integer> vaihtoehto : vaihtoehdot.values()) {
-        //     switch (vaihtoehto) {
-        //         case 1:
-  
-
-        //     }
-        // }
-
+        // Piirretään vaihtoehdot
         System.out.println("------------------------");
         System.out.println("|                      |");
         for(String vaihtoehto :piirrettavatVaihtoehdot) {
@@ -140,7 +151,7 @@ public class Kayttoliittyma {
             if(sisaltoArvo == -1) {
                 System.out.printf("| %-25s |\n", sisalto.getKey());
             } else {
-                System.out.printf("| %-19s %5d |\n", sisalto.getKey(), sisaltoArvo);
+                System.out.printf(vihrea + "| %-19s %5d |\n" + resetoiVari, sisalto.getKey(), sisaltoArvo);
             }
 
         }
@@ -195,6 +206,7 @@ public class Kayttoliittyma {
     public void piirraLukitseTila(LinkedHashMap<Integer, Boolean> lukitutNopat) {
         System.out.println("----Valitse noppa jonka haluat lukita----");
 
+        // Käydään läpi hashmappi lukituista nopista.
         for(Map.Entry<Integer, Boolean> entry : lukitutNopat.entrySet()) {
             String nopanTila;
             if(entry.getValue() == false) {
@@ -204,7 +216,13 @@ public class Kayttoliittyma {
             }
             System.out.println(entry.getKey() + " -> " + nopanTila);
         }
-            
+
+        System.out.println("------------------------");
+        System.out.println("|                      |");
+        System.out.println("|  -1 -> Takaisin      |");
+        System.out.println("|   0 -> Lopeta peli   |");
+        System.out.println("|                      |");
+        System.out.println("------------------------");
 
     }
 
