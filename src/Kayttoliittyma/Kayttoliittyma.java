@@ -47,12 +47,8 @@ public class Kayttoliittyma {
         );
     }
 
-    public void kysyPelaajienMaara() {
-        System.out.println("----Anna pelaajien määrä. (Vähintään 2)----");
-    }
-    
-    public void kysyPelaajanNimi(int pelaajanIndeksi) {
-        System.out.println("----Anna pelaajan: " + pelaajanIndeksi + " nimi----");
+    public void kysyPelaajanNimi() {
+        System.out.println("----Pelaajan nimi (Tyhjä nimi luo nimen automaattisesti)----");
     }
 
     // Tarkempia virhe syöttöjä
@@ -64,9 +60,9 @@ public class Kayttoliittyma {
         System.out.println(punainen + "----Sinulla ei ole enää heittoja jäljellä----" + resetoiVari);
     }
 
-    // Moninpeli
-    public void piirraPelaajanVuoro(String pelaaja) {
-        System.out.println("----Pelaajan " + pelaaja + " vuoro----");
+    public void selitaVarit() {
+        System.out.println("\033[0;32m" + "Vihreä = valittu piste" + "\033[0m");
+        System.out.println("\033[0;31m" + "Punainen = Mahdollinen piste" + "\033[0m");
     }
 
     // TODO: Tee metodi joka piirtää valitse pisteet käyttöliittymän.
@@ -82,7 +78,7 @@ public class Kayttoliittyma {
         }
 
         System.out.println("|                                                   |");
-        System.out.println("| 0 -> Ei mitään pisteitä vastaan                   |");
+        System.out.println("| 0 -> Tee uusi pistetiedosto                       |");
         System.out.println("-----------------------------------------------------");
 
     }
@@ -106,9 +102,6 @@ public class Kayttoliittyma {
                 piirrettavatVaihtoehdot.add("| 3 -> Valitse pisteet |");
             }
 
-            if(entry.getKey() == "Lopeta" && entry.getValue() == 1) {
-                piirrettavatVaihtoehdot.add("|   0 -> Lopeta peli   |");
-            }
         }
 
         // Piirretään vaihtoehdot
@@ -130,7 +123,7 @@ public class Kayttoliittyma {
             int sisaltoArvo = sisalto.getValue();
 
             // Jos kyseessä on ykköset niin tulostetaan piste kortin otsikko.
-            if(sisalto.getKey().equals("Ykköset")) {
+            if(sisalto.getKey().equals("Ykkoset")) {
                 System.out.println("-----------------------------");
                 System.out.println("|       PISTE KORTTI        |");
                 System.out.printf("| %-25s |\n", nimi);
@@ -138,9 +131,9 @@ public class Kayttoliittyma {
             }
 
             // Jos kyseessä on välisumma, pari, summa tai neljä samaa niin tulostetaan tyhjä rivi ennen numeroa.
-            if(sisalto.getKey().equals("Välisumma") || 
+            if(sisalto.getKey().equals("Valisumma") || 
                 sisalto.getKey().equals("Summa") || 
-                sisalto.getKey().equals("Neljä samaa") ||
+                sisalto.getKey().equals("Nelja samaa") ||
                 sisalto.getKey().equals("Pari")) 
             {
                 System.out.printf("| %-25s |\n", " ");
@@ -224,6 +217,16 @@ public class Kayttoliittyma {
         System.out.println("|                      |");
         System.out.println("------------------------");
 
+    }
+
+    // Piirrä piste valinta
+    public void piirraPisteValinta() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("|                                                |");
+        System.out.println("|    Valitse piste kirjoittamalla pisteen nimi   |");
+        System.out.println("|                 -1 -> Takaisin                 |");
+        System.out.println("|                                                |");
+        System.out.println("--------------------------------------------------");
     }
 
     // Tyhjentää terminaalin

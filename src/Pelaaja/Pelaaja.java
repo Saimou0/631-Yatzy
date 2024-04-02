@@ -9,9 +9,6 @@ public class Pelaaja{
     String nimi;
     public int vuorojenMaara = 1;
 
-    // Seuraatan mitkä pisteet pelaaja on jo valinnut
-    public LinkedHashMap<String, Boolean> valitutPisteet = new LinkedHashMap<String, Boolean>();
-
     public Pelaaja(String nimi) {
         this.nimi = nimi;
         this.nopat = new Nopat();
@@ -23,23 +20,23 @@ public class Pelaaja{
     }
 
     public void pisteetTesti() {
-        pistekirjaus.pisteet.put("Ykköset", -1);
+        pistekirjaus.pisteet.put("Ykkoset", -1);
         pistekirjaus.pisteet.put("Kakkoset", -1);
         pistekirjaus.pisteet.put("Kolmoset", -1);
         pistekirjaus.pisteet.put("Neloset", -1);
         pistekirjaus.pisteet.put("Viitoset", -1);
         pistekirjaus.pisteet.put("Kuutoset", -1);
 
-        pistekirjaus.pisteet.put("Välisumma", -1);
+        pistekirjaus.pisteet.put("Valisumma", -1);
 
         pistekirjaus.pisteet.put("Pari", -1);
         pistekirjaus.pisteet.put("Kaksi paria", -1);
         pistekirjaus.pisteet.put("Kolme samaa", -1);
 
-        pistekirjaus.pisteet.put("Neljä samaa", -1);
+        pistekirjaus.pisteet.put("Nelja samaa", -1);
         pistekirjaus.pisteet.put("Pikku suora", -1);
         pistekirjaus.pisteet.put("Iso suora", -1);
-        pistekirjaus.pisteet.put("Taysikäsi", -1);
+        pistekirjaus.pisteet.put("Taysikasi", -1);
         pistekirjaus.pisteet.put("Sattuma", -1);
         pistekirjaus.pisteet.put("Yatzy", -1);
         
@@ -80,11 +77,10 @@ public class Pelaaja{
 
     // Palauttaa lukitut nopat
     public LinkedHashMap<Integer, Boolean> getLukitutNopat() {
-        // System.out.println(nopat.getLukitutNopat().values());
         return nopat.getLukitutNopat();
     }
 
-    // Pisteiden hakeminen
+    // Palautaa pisteet
     public Map<String, Integer> getPisteet() {
         return pistekirjaus.pisteet;
     }
@@ -104,8 +100,20 @@ public class Pelaaja{
 
     // Pisteiden lisääminen
     // Tarvitsee pisteiden laskennan
-    public void lisaaPisteet(String nimi) {
-        pistekirjaus.pisteet.put(nimi, 10);
+    public void lisaaPisteet(String nimi, int pisteet) {
+        this.pistekirjaus.lisaaPisteet(nimi, pisteet);
+
+        if(this.pistekirjaus.pisteet.get("Ykkoset") != -1 && 
+            this.pistekirjaus.pisteet.get("Kakkoset") != -1 && 
+            this.pistekirjaus.pisteet.get("Kolmoset") != -1 &&
+            this.pistekirjaus.pisteet.get("Neloset") != -1 &&
+            this.pistekirjaus.pisteet.get("Viitoset") != -1 &&
+            this.pistekirjaus.pisteet.get("Kuutoset") != -1) 
+        {
+            // this.pistekirjaus.lisaaPisteet("Valisumma", this.pistekirjaus.laskeValisumma());
+        }
+
+        this.pistekirjaus.tallennaPisteetTiedostoon(this.nimi);
     }
 
     // Lisää mahdolliset pisteet listaan.
