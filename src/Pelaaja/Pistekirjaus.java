@@ -102,4 +102,21 @@ public class Pistekirjaus {
         this.pisteet.put(nimi, pisteet);
     }
 
+    public void laskeMahdollisetPisteet(int[] nopat) {
+        mahdollisetPisteet.clear();
+        int ykkostenSumma = laskeNopanSumma(nopat, 1);
+        mahdollisetPisteet.put("Ykköset", ykkostenSumma);
+        
+    }
+
+    private int laskeNopanSumma(int[] nopat, int numero) {
+        int summa = 0;
+        for (int noppa : nopat) {
+            if (noppa == numero) {
+                summa += numero;
+            }
+        }
+        return summa;
+    }
+
 }
