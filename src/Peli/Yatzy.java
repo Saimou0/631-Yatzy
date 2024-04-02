@@ -1,8 +1,11 @@
 package Peli;
+
 import Kayttoliittyma.Kayttoliittyma;
 import Kayttoliittyma.Menunlogiikka;
 
 public class Yatzy {
+
+
     public static void main(String[] args) throws Exception {
 
         Kayttoliittyma kayttoliityma = new Kayttoliittyma();
@@ -19,20 +22,20 @@ public class Yatzy {
         // Tehty
         /*
          - Aloitusvalikko
-         - Yksinpelin ja moninpelin alustus
+         - Pelin alustus
          - Toimiva pisteiden tallennus ja luku tekstitiedostosta
+         - Nopat
+         - Pelin logiikka / pelin looppi yksinpeli
         */
-
+        
         // Tekemättä
         /*
-         - Nopat
          - Pisteiden laskenta
-         - Pelin logiikka / pelin looppi
          - Pelin loppuminen
          - Pelaajien pisteiden vertailu
          
-         Kaikki mitä tällä hetkellä tulee mieleen. 
+         Kaikki mitä tällä hetkellä tulee mieleen.
         */
     }
-    
+
 }
