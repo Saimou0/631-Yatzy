@@ -6,9 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Kayttoliittyma {
-    String punainen = "\033[0;31m";
-    String vihrea = "\033[0;32m";
-    String resetoiVari = "\033[0m";
+    static final String PUNAINEN = "\033[0;31m";
+    static final String VIHREA = "\033[0;32m";
+    static final String RESETOI_VARI = "\033[0m";
 
     // Yleinen virhe syöttö
     public void piirraVirheSyotto() {
@@ -31,38 +31,22 @@ public class Kayttoliittyma {
         );
     }
 
-    public void piirraPeliMuodot() {
-
-        System.out.println(
-            """
-            ---------------------------
-            |       PELI MUODOT       |
-            |                         |
-            |     1 -> Moninpeli      |
-            |     2 -> Yksinpeli      |
-            |     0 -> Lopeta         |
-            |                         |
-            ---------------------------
-            """
-        );
-    }
-
     public void kysyPelaajanNimi() {
         System.out.println("----Pelaajan nimi (Tyhjä nimi luo nimen automaattisesti)----");
     }
 
     // Tarkempia virhe syöttöjä
     public void pelaajaJoValinnutPisteet() {
-        System.out.println(punainen + "----Olet jo valinnut tämän pisteen----" + resetoiVari);
+        System.out.println(PUNAINEN + "----Olet jo valinnut tämän pisteen----" + RESETOI_VARI);
     }
 
     public void eiHeittoja() {
-        System.out.println(punainen + "----Sinulla ei ole enää heittoja jäljellä----" + resetoiVari);
+        System.out.println(PUNAINEN + "----Sinulla ei ole enää heittoja jäljellä----" + RESETOI_VARI);
     }
 
     public void selitaVarit() {
-        System.out.println("\033[0;32m" + "Vihreä = valittu piste" + "\033[0m");
-        System.out.println("\033[0;31m" + "Punainen = Mahdollinen piste" + "\033[0m");
+        System.out.println(VIHREA + "Vihreä = valittu piste" + RESETOI_VARI);
+        System.out.println(PUNAINEN + "Punainen = Mahdollinen piste" + RESETOI_VARI);
     }
 
     // TODO: Tee metodi joka piirtää valitse pisteet käyttöliittymän.
@@ -144,7 +128,7 @@ public class Kayttoliittyma {
             if(sisaltoArvo == -1) {
                 System.out.printf("| %-25s |\n", sisalto.getKey());
             } else {
-                System.out.printf(vihrea + "| %-19s %5d |\n" + resetoiVari, sisalto.getKey(), sisaltoArvo);
+                System.out.printf(VIHREA + "| %-19s %5d |\n" + RESETOI_VARI, sisalto.getKey(), sisaltoArvo);
             }
 
         }
@@ -210,12 +194,12 @@ public class Kayttoliittyma {
             System.out.println(entry.getKey() + " -> " + nopanTila);
         }
 
-        System.out.println("------------------------");
-        System.out.println("|                      |");
-        System.out.println("|  -1 -> Takaisin      |");
-        System.out.println("|   0 -> Lopeta peli   |");
-        System.out.println("|                      |");
-        System.out.println("------------------------");
+        System.out.println("------------------------------------------------");
+        System.out.println("|                                              |");
+        System.out.println("| Lukitse noppia kirjoittamalla niiden numero. |");
+        System.out.println("|                -1 -> Takaisin                |");
+        System.out.println("|                                              |");
+        System.out.println("------------------------------------------------");
 
     }
 
@@ -223,7 +207,7 @@ public class Kayttoliittyma {
     public void piirraPisteValinta() {
         System.out.println("--------------------------------------------------");
         System.out.println("|                                                |");
-        System.out.println("|    Valitse piste kirjoittamalla pisteen nimi   |");
+        System.out.println("|   Valitse piste kirjoittamalla pisteen nimi.   |");
         System.out.println("|                 -1 -> Takaisin                 |");
         System.out.println("|                                                |");
         System.out.println("--------------------------------------------------");

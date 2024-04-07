@@ -13,6 +13,8 @@ public class Pistekirjaus {
     LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
     File pisteetKansio = new File("src/pisteet/");
 
+    //TODO: Välisumman ja summan laskemiseen metodit.
+
     // Metodi pisteiden tallentamiseen tekstitiedostoon.
     public void tallennaPisteetTiedostoon(String pelaajannimi) {
         try {
@@ -69,7 +71,6 @@ public class Pistekirjaus {
         for(int i = 0; i < tiedostotLista.length; i++) {
             tiedostot.put(tiedostotLista[i], i + 1);
         }
-
 
         return tiedostot;
     } 

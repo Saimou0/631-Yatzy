@@ -19,7 +19,7 @@ public class Pelaaja{
         return this.nimi;
     }
 
-    public void pisteetTesti() {
+    public void initPisteet() {
         pistekirjaus.pisteet.put("Ykkoset", -1);
         pistekirjaus.pisteet.put("Kakkoset", -1);
         pistekirjaus.pisteet.put("Kolmoset", -1);
@@ -102,16 +102,6 @@ public class Pelaaja{
     // Tarvitsee pisteiden laskennan
     public void lisaaPisteet(String nimi, int pisteet) {
         this.pistekirjaus.lisaaPisteet(nimi, pisteet);
-
-        if(this.pistekirjaus.pisteet.get("Ykkoset") != -1 && 
-            this.pistekirjaus.pisteet.get("Kakkoset") != -1 && 
-            this.pistekirjaus.pisteet.get("Kolmoset") != -1 &&
-            this.pistekirjaus.pisteet.get("Neloset") != -1 &&
-            this.pistekirjaus.pisteet.get("Viitoset") != -1 &&
-            this.pistekirjaus.pisteet.get("Kuutoset") != -1) 
-        {
-            // this.pistekirjaus.lisaaPisteet("Valisumma", this.pistekirjaus.laskeValisumma());
-        }
 
         this.pistekirjaus.tallennaPisteetTiedostoon(this.nimi);
     }

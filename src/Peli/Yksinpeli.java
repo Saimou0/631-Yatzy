@@ -10,7 +10,9 @@ import Pelaaja.Pelaaja;
 public class Yksinpeli {
 
     Kayttoliittyma kayttoliittyma;
+    PelaajaSyotto pelaajaSyotto;
     Scanner lukija = new Scanner(System.in);
+    
     private Pelaaja vastustaja;
     private Pelaaja pelaaja;
 
@@ -18,29 +20,18 @@ public class Yksinpeli {
     private boolean ensimmainenHeitto = true;
     private int pelaajanNykyinenVuoro = 1;
 
-    private static final int HEITA_TILA = 1;
-    private static final int LUKITSE_TILA = 2;
-    private static final int VALITSE_PISTEET_TILA = 3;
-    private static final int TAKAISIN = -1;
-
     public LinkedHashMap<String, Integer> tilaLista = new LinkedHashMap<>();
 
-    public Yksinpeli(Pelaaja pelaaja, Kayttoliittyma kayttoliittyma) {
+    // Konstruktori
+    public Yksinpeli(Pelaaja pelaaja, Kayttoliittyma kayttoliittyma, Pelaaja vastustaja) {
         this.pelaaja = pelaaja;
         this.kayttoliittyma = kayttoliittyma;
+        this.vastustaja = vastustaja;
+        this.pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
     }
 
-    // TODO: Pelaajan vuoro loppuu kun hän on valinnut pisteen, nollataan heitot ja lisätään vuorojen määrää.
-    // TODO: Vertaa pelaajan pisteitä vastustajan pisteisiin ja tallenna voittaja tiedostoon.
-
-    /*
-     * TODO: Optimointia.
-    */
-
+    // Pelin jatkumisen looppi
     public void pelinLoop() {
-        // Kysytään haluaaka pelaaja vastustajan.
-        this.paatteleVastustaja();
-
         boolean peliJatkuu = true;
         while (peliJatkuu) {
             if (pelaaja.vuorojenMaara == 15) {
@@ -54,6 +45,7 @@ public class Yksinpeli {
                 pelaajanNykyinenVuoro = pelaaja.vuorojenMaara;
                 ensimmainenHeitto = true;
                 heittojenMaraa = 3;
+                this.avaaKaikkiNopat();
             }
 
             // Lopetetaan peli jos pelin päivitys palauttaa 0
@@ -90,69 +82,17 @@ public class Yksinpeli {
         }
 
         // Piirretään käyttöliittymä
-        this.kayttoliittymanPiirtaminen();
+        kayttoliittymanPiirtaminen();
 
         // Prosessoidaan pelaajan syöttö
-        return prosessoiPelaajanSyotto();
+        return pelaajaSyotto.prosessoiPelaajanSyotto(this, tilaLista);
     }
-
-
-    // Vastustaja
-    // Toimii
-    //TODO Tarkista, että pelaaja ei voi pelata uutta tiedostoa vastaan. Ja ei voi kirjoittaa stringiä
-    public int paatteleVastustaja() {
-        
-        kayttoliittyma.piirraValitseVastustaja(pelaaja.getPisteTiedostot());
-        LinkedHashMap<String, Integer> pisteTiedostoLista = pelaaja.getPisteTiedostot(); 
-        int pelaajanSyotto = -2;
-
-        boolean sopivaVastustaja = true;
-        while (sopivaVastustaja) {
-            pelaajanSyotto = pelaajanSyottoInt();
-            if(pelaajanSyotto > pisteTiedostoLista.size()) {
-                System.out.println("Vastusta ei löytynyt, valitse uudelleen");
-            } else {
-                sopivaVastustaja = false;
-            }
-        }
-
-        if (pelaajanSyotto == 0) {
-            return 0;
-        }
-
-        vastustaja = new Pelaaja("Vastustaja");
-
-        for (Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
-            if (pelaajanSyotto == Integer.parseInt(pisteTiedosto.getValue().toString())) {
-                String kokoAvain = pisteTiedosto.getKey().toString();
-                String avaimenNimi = kokoAvain.split("_")[0];
-                if(avaimenNimi == pelaaja.getNimi()) {
-                    System.out.println("Et voi pelata itseäsi vastaan");
-                    return -1;
-                }
-                vastustaja.luePisteetTiedostosta(avaimenNimi);
-            } else {
-                System.out.println("Virhe vastustajan valinnassa");
-            }
-        }
-
-        for (Map.Entry<String, Integer> pisteet : vastustaja.getPisteet().entrySet()) {
-            System.out.println(pisteet.getKey() + ": " + pisteet.getValue());
-        }
-
-        return -1;
-    }
-
 
     // Nopat
-    // Toimii
     // Noppien heittäminen
     public void heitaNopat() {
         // Katsotaan onko pelaajalla heittoja jäljellä
         if (heittojenMaraa > 0) {
-            // Tyhjennetään terminaali
-            kayttoliittyma.tyhjennaTerminaali();
-
             // Heitetään nopat ja vähennetään heittojen määrää
             pelaaja.heitaNopat();
             heittojenMaraa--;
@@ -170,12 +110,12 @@ public class Yksinpeli {
                 kayttoliittyma.tyhjennaTerminaali();
                 kayttoliittyma.piirraLukitseTila(pelaaja.getLukitutNopat());
                 kayttoliittyma.piirraNopat(pelaaja.getNopat());
-                pelaaja.getLukitutNopat();
+                // pelaaja.getLukitutNopat();
 
-                int pelaajanSyotto = pelaajanSyottoInt();
+                int pelaajanSyotto = pelaajaSyotto.pelaajanSyottoInt();
                 if (pelaajanSyotto >= 1 && pelaajanSyotto <= 5) {
                     pelaaja.lukitseJaVapautaNoppia(pelaajanSyotto);
-                } else if (pelaajanSyotto == TAKAISIN) {
+                } else if (pelaajanSyotto == -1) {
                     break;
                 } else {
                     kayttoliittyma.piirraVirheSyotto();
@@ -187,9 +127,16 @@ public class Yksinpeli {
         }
     }
 
+    // Avaa kaikkien noppien lukitukset
+    private void avaaKaikkiNopat() {
+        for (Map.Entry<Integer, Boolean> entry : pelaaja.getLukitutNopat().entrySet()) {
+            if (entry.getValue() == true) {
+                pelaaja.lukitseJaVapautaNoppia((entry.getKey()));
+            }
+        }
+    }
     
     //Pisteet
-    // Ei toimi
     public void pelaajanPisteValinta() {
         kayttoliittyma.tyhjennaTerminaali();
         kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
@@ -267,8 +214,8 @@ public class Yksinpeli {
                     break;
 
                 case "Pari":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Pari") == -1) {
+                        pelaaja.lisaaPisteet("Pari", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -277,8 +224,8 @@ public class Yksinpeli {
                     break;
                     
                 case "Kaksi paria":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Kaksi paria") == -1) {
+                        pelaaja.lisaaPisteet("Kaksi paria", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -287,8 +234,8 @@ public class Yksinpeli {
                     break;
                 
                 case "Kolme samaa":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Kolme samaa") == -1) {
+                        pelaaja.lisaaPisteet("Kolme samaa", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -297,8 +244,8 @@ public class Yksinpeli {
                     break;
                 
                 case "Nelja samaa":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Nelja samaa") == -1) {
+                        pelaaja.lisaaPisteet("Nelja samaa", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -307,8 +254,8 @@ public class Yksinpeli {
                     break;
                     
                 case "Pikku suora":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Pikku suora") == -1) {
+                        pelaaja.lisaaPisteet("Pikku suora", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -317,8 +264,8 @@ public class Yksinpeli {
                     break;
                 
                 case "Iso suora":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Iso suora") == -1) {
+                        pelaaja.lisaaPisteet("Iso suora", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -327,8 +274,8 @@ public class Yksinpeli {
                     break;
                     
                 case "Taysikasi":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Taysikasi") == -1) {
+                        pelaaja.lisaaPisteet("Taysikasi", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -337,8 +284,8 @@ public class Yksinpeli {
                     break;
                     
                 case "Sattuma":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Sattuma") == -1) {
+                        pelaaja.lisaaPisteet("Sattuma", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -347,8 +294,8 @@ public class Yksinpeli {
                     break;
                     
                 case "Yatzy":
-                    if (pelaaja.getPisteet().get("") == -1) {
-                        pelaaja.lisaaPisteet("", -2);
+                    if (pelaaja.getPisteet().get("Yatzy") == -1) {
+                        pelaaja.lisaaPisteet("Yatzy", -2);
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -362,55 +309,6 @@ public class Yksinpeli {
             }
         }
         
-    }
-
-    // Pelaajan syöttö
-    // Toimii
-    // Pelaajan syöttön tarkistaminen
-    public int pelaajanSyottoInt() {
-        try {
-            String kayttajanSyotto = lukija.nextLine();
-            int syotonNumero = Integer.parseInt(kayttajanSyotto);
-            return syotonNumero;
-
-        } catch (Exception e) {
-            kayttoliittyma.piirraVirheSyotto();
-            return -1;
-        }
-    }
-
-    public int prosessoiPelaajanSyotto() {
-        int pelaajanSyotto = pelaajanSyottoInt();
-        switch (pelaajanSyotto) {
-            // Jos pelaajan syötto on 1 niin heitetään nopat
-            case HEITA_TILA:
-                // Ensin tarkistetaan onko heittäminen tila listassa.
-                if (tilaLista.get("Heitä") == 1) {
-                    heitaNopat();
-                }
-                break;
-
-            // Jos pelaajan syötto on 2 niin mennään noppien lukitsemis tilaan.
-            case LUKITSE_TILA:
-                if (tilaLista.get("Lukitse") == 1) {
-                    noppienLukitseminen();
-                }
-                break;
-
-            // Jos pelaajan syötto on 3 niin mennään valitsemaan pisteet
-            case VALITSE_PISTEET_TILA:
-                if (tilaLista.get("Valitse Pisteet") == 1) {
-                    pelaajanPisteValinta();
-                }
-                break;
-
-            // Jos pelaajan syöttö on 0 niin lopetetaan peli
-            case 0:
-                return 0;
-            default:
-                break;
-        }
-        return-1;
     }
 
     // Käyttöliittymä
