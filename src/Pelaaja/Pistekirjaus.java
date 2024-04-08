@@ -11,7 +11,7 @@ import java.util.Map;
 public class Pistekirjaus {
     LinkedHashMap<String, Integer> mahdollisetPisteet = new LinkedHashMap<String, Integer>();
     LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
-    File pisteetKansio = new File("src/pisteet/");
+    File pisteetKansio = new File("pisteet/");
 
     //TODO: Välisumman ja summan laskemiseen metodit.
 
@@ -20,7 +20,7 @@ public class Pistekirjaus {
         try {
             // Luodaan PrintWriter-olio tiedostoon kirjottamista varten. Tiedosto nimetään
             // pelaajan mukaan ja se luodaan pisteet kansioon.
-            PrintWriter kirjoittaja = new PrintWriter(new File("src/pisteet/" + pelaajannimi + "_pisteet.txt"));
+            PrintWriter kirjoittaja = new PrintWriter(new File("pisteet/" + pelaajannimi + "_pisteet.txt"));
 
             // Käydään pisteet map läpi ja kirjoitetaan ne tiedostoon.
             for (Map.Entry<String, Integer> merkinta : pisteet.entrySet()) {
@@ -40,7 +40,7 @@ public class Pistekirjaus {
         LinkedHashMap<String, Integer> luetutPisteet = new LinkedHashMap<String, Integer>();
 
         try {
-            BufferedReader lukija = new BufferedReader(new FileReader("src/pisteet/" + pelaajanNimi + "_pisteet.txt"));
+            BufferedReader lukija = new BufferedReader(new FileReader("pisteet/" + pelaajanNimi + "_pisteet.txt"));
 
             String rivi;
             while ((rivi = lukija.readLine()) != null) {

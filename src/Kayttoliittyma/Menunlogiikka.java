@@ -1,5 +1,6 @@
 // Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
+//TODO: import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class Menunlogiikka {
     private Yksinpeli yksinpeli;
     private PelaajaSyotto pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
     private Pistekirjaus pistekirjaus = new Pistekirjaus();
-    Pelaaja pelaaja;
+    Pelaaja pelaaja = null;
     Scanner lukija = new Scanner(System.in);
 
     public void pelinAloitus(Kayttoliittyma kayttoliittyma) {
@@ -58,34 +59,43 @@ public class Menunlogiikka {
     private void initYksinpeli() {
         kayttoliittyma.tyhjennaTerminaali();
         
-        Pelaaja pelaaja = null;
         kayttoliittyma.kysyPelaajanNimi();
         String nimi = tarkistaKayttajanNimi();
 
         if(nimi == "") {
             nimi = "Pelaaja " + (1);
         } else {
-            pelaaja = new Pelaaja(nimi);
+            this.pelaaja = new Pelaaja(nimi);
         }
 
         pelaaja.initPisteet();
 
-        Pelaaja vastustaja = paatteleVastustaja();
+        Pelaaja vastustaja = paatteleVastustaja(this.pelaaja);
 
         // Luodaan yksinpeli ja annetaan pelaaja ja käyttöliittymä.
-        this.yksinpeli = new Yksinpeli(pelaaja, kayttoliittyma, vastustaja);
+        this.yksinpeli = new Yksinpeli(this.pelaaja, this.kayttoliittyma, vastustaja);
 
         // Tyhjetään terminaali ja aloitetaan peli.
         kayttoliittyma.tyhjennaTerminaali();
         yksinpeli.pelinLoop();
-
-
     }
 
     // Pelaajan vastustajan luominen, vanhasta tiedostosta
-    public Pelaaja paatteleVastustaja() {
-        kayttoliittyma.piirraValitseVastustaja(pistekirjaus.getPisteTiedostot());
+    public Pelaaja paatteleVastustaja(Pelaaja pelaaja) {
         LinkedHashMap<String, Integer> pisteTiedostoLista = pistekirjaus.getPisteTiedostot(); 
+        
+        // Iterator<Map.Entry<String, Integer>> iteraattori = pisteTiedostoLista.entrySet().iterator();
+
+        // while (iteraattori.hasNext()) {
+        //     Map.Entry<String, Integer> pisteTiedosto = iteraattori.next();
+        //     String kokoAvain = pisteTiedosto.getKey().toString();
+        //     String avaimenNimi = kokoAvain.split("_")[0];
+        //     if(avaimenNimi.equals(pelaaja.getNimi())) {
+                
+        //     }
+        // }
+
+        kayttoliittyma.piirraValitseVastustaja(pisteTiedostoLista);
         int pelaajanSyotto = -2;
 
         boolean sopivaVastustaja = true;
@@ -96,19 +106,28 @@ public class Menunlogiikka {
                 return null;
             }
 
-            if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
-                kayttoliittyma.piirraVirheSyotto();
-            } else {
-                sopivaVastustaja = false;
+            for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
+                if(pisteTiedosto.getValue().equals(pelaajanSyotto)) {
+                    System.out.println("Et voi pelata tätä tiedostoa vastaan.");
+
+                } else if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
+                    kayttoliittyma.piirraVirheSyotto();
+                } else {
+                    sopivaVastustaja = false;
+                }
+                
             }
+
+
         }
 
         Pelaaja vastustaja = new Pelaaja("Vastustaja");
 
         for (Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
+            String kokoAvain = pisteTiedosto.getKey().toString();
+            String avaimenNimi = kokoAvain.split("_")[0];
+
             if (pelaajanSyotto == Integer.parseInt(pisteTiedosto.getValue().toString())) {
-                String kokoAvain = pisteTiedosto.getKey().toString();
-                String avaimenNimi = kokoAvain.split("_")[0];
                 vastustaja.luePisteetTiedostosta(avaimenNimi);
             } else {
                 System.out.println("Virhe vastustajan valinnassa");
@@ -123,17 +142,6 @@ public class Menunlogiikka {
     }
 
     // Utility
-    // Ottaa ja tarkistaa käyttäjän syötön.
-    // private int kayttajanSyotto() {
-    //     try {
-    //         String syotto = lukija.nextLine();
-    //         int syotonNumero = Integer.parseInt(syotto);
-    //         return syotonNumero;
-    //     } catch (NumberFormatException e) {
-    //         kayttoliittyma.piirraVirheSyotto();
-    //         return -1;
-    //     }
-    // }
 
     // Ottaa ja tarkistaa käyttäjän nimen syötön.
     private String tarkistaKayttajanNimi() {

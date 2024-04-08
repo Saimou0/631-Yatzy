@@ -36,7 +36,7 @@ public class Nopat {
     }
 
     public void vapautaNoppa(int indeksi) {
-        if (indeksi >= 0 && indeksi < NOPPAMAARA) {
+        if (indeksi >= 0 && indeksi <= NOPPAMAARA) {
             lukitutNopat.put(indeksi, false);
         }
     }

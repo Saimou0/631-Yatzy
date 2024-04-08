@@ -60,6 +60,7 @@ public class PelaajaSyotto {
             default:
                 break;
         }
+        
         return-1;
     }
 

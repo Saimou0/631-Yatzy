@@ -61,9 +61,6 @@ public class Yksinpeli {
     public int pelinPaivitys() {
         kayttoliittyma.tyhjennaTerminaali();
 
-        // Selitetään piirrettyjen pisteiden värit.
-        kayttoliittyma.selitaVarit();
-
         // Piirretään pelaajan pistekortti
         kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
 
@@ -92,6 +89,10 @@ public class Yksinpeli {
     // Noppien heittäminen
     public void heitaNopat() {
         // Katsotaan onko pelaajalla heittoja jäljellä
+        if(heittojenMaraa == 3 && ensimmainenHeitto == true) {
+            ensimmainenHeitto = false;
+        }
+
         if (heittojenMaraa > 0) {
             // Heitetään nopat ja vähennetään heittojen määrää
             pelaaja.heitaNopat();
@@ -110,7 +111,7 @@ public class Yksinpeli {
                 kayttoliittyma.tyhjennaTerminaali();
                 kayttoliittyma.piirraLukitseTila(pelaaja.getLukitutNopat());
                 kayttoliittyma.piirraNopat(pelaaja.getNopat());
-                // pelaaja.getLukitutNopat();
+                pelaaja.getLukitutNopat();
 
                 int pelaajanSyotto = pelaajaSyotto.pelaajanSyottoInt();
                 if (pelaajanSyotto >= 1 && pelaajanSyotto <= 5) {
@@ -335,7 +336,6 @@ public class Yksinpeli {
             tilaLista.put("Heitä", 1);
             tilaLista.put("Lukitse", 0);
             tilaLista.put("Valitse Pisteet", 0);
-            ensimmainenHeitto = false;
         }
 
         // Jos pelaajalla on 0 heittoa, poistetaan heitä ja lukitse vaihtoehdot listasta.

@@ -43,13 +43,6 @@ public class Kayttoliittyma {
     public void eiHeittoja() {
         System.out.println(PUNAINEN + "----Sinulla ei ole enää heittoja jäljellä----" + RESETOI_VARI);
     }
-
-    public void selitaVarit() {
-        System.out.println(VIHREA + "Vihreä = valittu piste" + RESETOI_VARI);
-        System.out.println(PUNAINEN + "Punainen = Mahdollinen piste" + RESETOI_VARI);
-    }
-
-    // TODO: Tee metodi joka piirtää valitse pisteet käyttöliittymän.
     
     public void piirraValitseVastustaja(LinkedHashMap<String, Integer> tiedostot) {
 
@@ -101,6 +94,8 @@ public class Kayttoliittyma {
 
     // Pistekortti
     public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
+        System.out.println(VIHREA + "Vihreä = valittu piste" + RESETOI_VARI);
+        System.out.println(PUNAINEN + "Punainen = Mahdollinen piste" + RESETOI_VARI);
 
         // -1 arvo tarkoittaa tyhjää arvoa. Arvoa jota pelaaja ei ole vielä valinnut
         for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
@@ -218,6 +213,5 @@ public class Kayttoliittyma {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
 
 }
