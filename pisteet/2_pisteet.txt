@@ -1,0 +1,17 @@
+Ykkoset: 1
+Kakkoset: 2
+Kolmoset: 3
+Neloset: -1
+Viitoset: -1
+Kuutoset: -1
+Valisumma: -1
+Pari: -1
+Kaksi paria: -1
+Kolme samaa: -1
+Nelja samaa: -1
+Pikku suora: -1
+Iso suora: -1
+Taysikasi: -1
+Sattuma: -1
+Yatzy: -1
+Summa: -1

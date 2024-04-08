@@ -34,7 +34,7 @@ public class Yksinpeli {
     public void pelinLoop() {
         boolean peliJatkuu = true;
         while (peliJatkuu) {
-            if (pelaaja.vuorojenMaara == 15) {
+            if (pelaaja.vuorojenMaara == 16) {
                 // Laske pisteet yhteen ja tallena ne tiedostoon.
                 // Jos pelaa jo valmista tiedostoa vastaan, vertaa pisteitä.
                 peliJatkuu = false;

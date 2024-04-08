@@ -106,17 +106,26 @@ public class Menunlogiikka {
                 return null;
             }
 
-            for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
-                if(pisteTiedosto.getValue().equals(pelaajanSyotto)) {
-                    System.out.println("Et voi pelata tätä tiedostoa vastaan.");
-
-                } else if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
-                    kayttoliittyma.piirraVirheSyotto();
-                } else {
-                    sopivaVastustaja = false;
-                }
+            // Mennään koko tiedostot mäppi läpi
+            // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
+            
+            // FIXME: Does not work at all
+            // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
+            //     String kokoAvain = pisteTiedosto.getKey().toString();
+            //     String avaimenNimi = kokoAvain.split("_")[0];
                 
-            }
+            //     // Jos pelaajan syötto on suurempi kun tiedostojen määrä tai pienempi kun 0, piirretään virheilmoitus.
+            //     if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
+            //         kayttoliittyma.piirraVirheSyotto();
+            //     } else {
+            //         if(avaimenNimi.equals(pelaaja.getNimi())) {
+            //             System.out.println("Et voi pelata tätä tiedostoa vastaan.");
+            //         } else {
+
+            //         }
+            //     }
+                
+            // }
 
 
         }
