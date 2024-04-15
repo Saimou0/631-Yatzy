@@ -62,10 +62,10 @@ public class Yksinpeli {
         kayttoliittyma.tyhjennaTerminaali();
 
         // Piirretään pelaajan pistekortti
-        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
+        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi(), pelaaja.getMahdollisetPisteet());
 
         if (this.vastustaja != null) {
-            kayttoliittyma.piirraPisteKortti(vastustaja.getPisteet(), vastustaja.getNimi());
+            kayttoliittyma.piirraPisteKortti(vastustaja.getPisteet(), vastustaja.getNimi(), vastustaja.getMahdollisetPisteet());
         }
 
         // Piirretään pelaajan heittojen määrä
@@ -140,7 +140,7 @@ public class Yksinpeli {
     //Pisteet
     public void pelaajanPisteValinta() {
         kayttoliittyma.tyhjennaTerminaali();
-        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi());
+        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi(), pelaaja.getMahdollisetPisteet());
         kayttoliittyma.piirraPisteValinta();
 
         boolean pisteValintaTila = true;
@@ -156,7 +156,7 @@ public class Yksinpeli {
 
                 case "Ykkoset":
                     if (pelaaja.getPisteet().get("Ykkoset") == -1) {
-                        pelaaja.lisaaPisteet("Ykkoset", 1);
+                        pelaaja.lisaaPisteet("Ykkoset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -166,7 +166,7 @@ public class Yksinpeli {
 
                 case "Kakkoset":
                     if (pelaaja.getPisteet().get("Kakkoset") == -1) {
-                        pelaaja.lisaaPisteet("Kakkoset", 2);
+                        pelaaja.lisaaPisteet("Kakkoset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -176,7 +176,7 @@ public class Yksinpeli {
 
                 case "Kolmoset":
                     if (pelaaja.getPisteet().get("Kolmoset") == -1) {
-                        pelaaja.lisaaPisteet("Kolmoset", 3);
+                        pelaaja.lisaaPisteet("Kolmoset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -186,7 +186,7 @@ public class Yksinpeli {
 
                 case "Neloset":
                     if (pelaaja.getPisteet().get("Neloset") == -1) {
-                        pelaaja.lisaaPisteet("Neloset", 4);
+                        pelaaja.lisaaPisteet("Neloset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -196,7 +196,7 @@ public class Yksinpeli {
 
                 case "Viitoset":
                     if (pelaaja.getPisteet().get("Viitoset") == -1) {
-                        pelaaja.lisaaPisteet("Viitoset", 5);
+                        pelaaja.lisaaPisteet("Viitoset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -206,17 +206,17 @@ public class Yksinpeli {
 
                 case "Kuutoset":
                     if (pelaaja.getPisteet().get("Kuutoset") == -1) {
-                        pelaaja.lisaaPisteet("Kuutoset", 6);
+                        pelaaja.lisaaPisteet("Kuutoset");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
                         kayttoliittyma.pelaajaJoValinnutPisteet();
                     }
                     break;
-
+                //FIXME: 1-6 TOIMII
                 case "Pari":
                     if (pelaaja.getPisteet().get("Pari") == -1) {
-                        pelaaja.lisaaPisteet("Pari", -2);
+                        pelaaja.lisaaPisteet("Pari");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -226,7 +226,7 @@ public class Yksinpeli {
                     
                 case "Kaksi paria":
                     if (pelaaja.getPisteet().get("Kaksi paria") == -1) {
-                        pelaaja.lisaaPisteet("Kaksi paria", -2);
+                        pelaaja.lisaaPisteet("Kaksi paria");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -236,7 +236,7 @@ public class Yksinpeli {
                 
                 case "Kolme samaa":
                     if (pelaaja.getPisteet().get("Kolme samaa") == -1) {
-                        pelaaja.lisaaPisteet("Kolme samaa", -2);
+                        pelaaja.lisaaPisteet("Kolme samaa");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -246,7 +246,7 @@ public class Yksinpeli {
                 
                 case "Nelja samaa":
                     if (pelaaja.getPisteet().get("Nelja samaa") == -1) {
-                        pelaaja.lisaaPisteet("Nelja samaa", -2);
+                        pelaaja.lisaaPisteet("Nelja samaa");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -254,9 +254,9 @@ public class Yksinpeli {
                     }
                     break;
                     
-                case "Pikku suora":
-                    if (pelaaja.getPisteet().get("Pikku suora") == -1) {
-                        pelaaja.lisaaPisteet("Pikku suora", -2);
+                case "Pieni suora":
+                    if (pelaaja.getPisteet().get("Pieni suora") == -1) {
+                        pelaaja.lisaaPisteet("Pieni suora");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -266,7 +266,7 @@ public class Yksinpeli {
                 
                 case "Iso suora":
                     if (pelaaja.getPisteet().get("Iso suora") == -1) {
-                        pelaaja.lisaaPisteet("Iso suora", -2);
+                        pelaaja.lisaaPisteet("Iso suora");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -276,7 +276,7 @@ public class Yksinpeli {
                     
                 case "Taysikasi":
                     if (pelaaja.getPisteet().get("Taysikasi") == -1) {
-                        pelaaja.lisaaPisteet("Taysikasi", -2);
+                        pelaaja.lisaaPisteet("Taysikasi");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -286,7 +286,7 @@ public class Yksinpeli {
                     
                 case "Sattuma":
                     if (pelaaja.getPisteet().get("Sattuma") == -1) {
-                        pelaaja.lisaaPisteet("Sattuma", -2);
+                        pelaaja.lisaaPisteet("Sattuma");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {
@@ -296,7 +296,7 @@ public class Yksinpeli {
                     
                 case "Yatzy":
                     if (pelaaja.getPisteet().get("Yatzy") == -1) {
-                        pelaaja.lisaaPisteet("Yatzy", -2);
+                        pelaaja.lisaaPisteet("Yatzy");
                         pelaaja.vuorojenMaara++;
                         pisteValintaTila = false;
                     } else {

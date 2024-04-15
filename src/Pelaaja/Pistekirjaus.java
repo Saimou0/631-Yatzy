@@ -99,11 +99,16 @@ public class Pistekirjaus {
         }
     }
 
-    public void lisaaPisteet(String nimi, int pisteet) {
-        this.pisteet.put(nimi, pisteet);
+    public void lisaaPisteet(String nimi) {
+        this.pisteet.put(nimi, mahdollisetPisteet.get(nimi));
     }
 
-     public void laskeMahdollisetPisteet(int[] nopat) {
+    public LinkedHashMap<String, Integer> getMahdollisetPisteet(int[] nopat) {
+        laskeMahdollisetPisteet(nopat);
+        return mahdollisetPisteet;
+    }
+
+    public void laskeMahdollisetPisteet(int[] nopat) {
         mahdollisetPisteet.clear();
         
         int ykkostenSumma = laskeNopanSumma(nopat, 1);
@@ -112,35 +117,41 @@ public class Pistekirjaus {
         int nelostenSumma = laskeNopanSumma(nopat, 4);
         int viitostenSumma = laskeNopanSumma(nopat, 5);
         int kuutostenSumma = laskeNopanSumma(nopat, 6);
+        
+        //TODO: Kommentoidut metodit puuttuu.
+
+        // int pari = laskePari(nopat);
+        // int kaksiParia = laskeKaksiParia(nopat);
+        // int kolmeSamaa = laskeKolmeSamaa(nopat);
+        int neljaSamaa = laskeNeljaSamaa(nopat);
+        
         int pieniSuora = laskePieniSuora(nopat);
         int isoSuora = laskeIsoSuora(nopat);
         int taysikasi = laskeTaysikasi(nopat);
-        int neljaSamaa = laskeNeljaSamaa(nopat);
-        int kolmeSamaa = laskeKolmeSamaa(nopat);
-        int pari = laskePari(nopat);
-        int kaksiParia = laskeKaksiParia(nopat);
-        int sattuma = laskeSattuma(nopat);
-        int yatzy = laskeYatzy(nopat);
+        // int sattuma = laskeSattuma(nopat);
+        // int yatzy = laskeYatzy(nopat);
 
         
-        mahdollisetPisteet.put("Ykköset", ykkostenSumma);
+        mahdollisetPisteet.put("Ykkoset", ykkostenSumma);
         mahdollisetPisteet.put("Kakkoset", kakkostenSumma);
         mahdollisetPisteet.put("Kolmoset", kolmostenSumma);
         mahdollisetPisteet.put("Neloset", nelostenSumma);
         mahdollisetPisteet.put("Viitoset", viitostenSumma);
         mahdollisetPisteet.put("Kuutoset", kuutostenSumma);
+        
+        // mahdollisetPisteet.put("Pari", pari);
+        // mahdollisetPisteet.put("Kaksi paria", kaksiParia);
+        // mahdollisetPisteet.put("Kolme samaa", kolmeSamaa);
+        mahdollisetPisteet.put("Nelja samaa", neljaSamaa);
+
+        
         mahdollisetPisteet.put("Pieni suora", pieniSuora);
         mahdollisetPisteet.put("Iso suora", isoSuora);
-        mahdollisetPisteet.put("Täyskäsi", taysikasi);
-        mahdollisetPisteet.put("Neljä samaa", neljaSamaa);
-        mahdollisetPisteet.put("Kolme samaa", kolmeSamaa);
-        mahdollisetPisteet.put("Pari", pari);
-        mahdollisetPisteet.put("Kaksi paria", kaksiParia);
-        mahdollisetPisteet.put("Sattuma", sattuma);
-        mahdollisetPisteet.put("Yatzy", yatzy);
+        mahdollisetPisteet.put("Taysikasi", taysikasi);
+        // mahdollisetPisteet.put("Sattuma", sattuma);
+        // mahdollisetPisteet.put("Yatzy", yatzy);
     }
 
-    
     private int laskeNopanSumma(int[] nopat, int numero) {
         int summa = 0;
         for (int noppa : nopat) {
@@ -153,23 +164,23 @@ public class Pistekirjaus {
 
     
     private int laskePieniSuora(int[] nopat) {
-        int[] counts = new int[6];
+        int[] counts = new int[7];
         for (int noppa : nopat) {
-            counts[noppa - 1]++;
+            counts[noppa]++;
         }
         for (int i = 0; i < 3; i++) {
             if (counts[i] > 0 && counts[i + 1] > 0 && counts[i + 2] > 0 && counts[i + 3] > 0) {
                 return 15; 
             }
         }
-        return 0; 
+        return 0;
     }
 
    
     private int laskeIsoSuora(int[] nopat) {
-        int[] counts = new int[6];
+        int[] counts = new int[7];
         for (int noppa : nopat) {
-            counts[noppa - 1]++;
+            counts[noppa]++;
         }
         for (int i = 0; i < 2; i++) {
             if (counts[i] > 0 && counts[i + 1] > 0 && counts[i + 2] > 0 && counts[i + 3] > 0 && counts[i + 4] > 0) {
@@ -181,9 +192,9 @@ public class Pistekirjaus {
 
     
     private int laskeTaysikasi(int[] nopat) {
-        int[] counts = new int[6];
+        int[] counts = new int[7];
         for (int noppa : nopat) {
-            counts[noppa - 1]++;
+            counts[noppa]++;
         }
         boolean hasThree = false;
         boolean hasTwo = false;
@@ -202,9 +213,9 @@ public class Pistekirjaus {
     }
 
     private int laskeNeljaSamaa(int[] nopat) {
-        int[] counts = new int[6];
+        int[] counts = new int[7];
         for (int noppa : nopat) {
-            counts[noppa - 1]++;
+            counts[noppa]++;
         }
         for (int i = 0; i < 6; i++) {
             if (counts[i] >= 4) {
@@ -213,10 +224,4 @@ public class Pistekirjaus {
         }
         return 0; 
     }
-
-    private int laskeKolmeSamaa(int[] nopat) {
-        int[] counts = new int[6];
-        for (int noppa : nopat) {
-            counts[noppa - 1]++;
-        }
-        for (int
+}

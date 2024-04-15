@@ -34,7 +34,7 @@ public class Pelaaja{
         pistekirjaus.pisteet.put("Kolme samaa", -1);
 
         pistekirjaus.pisteet.put("Nelja samaa", -1);
-        pistekirjaus.pisteet.put("Pikku suora", -1);
+        pistekirjaus.pisteet.put("Pieni suora", -1);
         pistekirjaus.pisteet.put("Iso suora", -1);
         pistekirjaus.pisteet.put("Taysikasi", -1);
         pistekirjaus.pisteet.put("Sattuma", -1);
@@ -87,7 +87,7 @@ public class Pelaaja{
 
     // Palautaa mahdolliset pisteet
     public Map<String, Integer> getMahdollisetPisteet() {
-        return pistekirjaus.mahdollisetPisteet;
+        return pistekirjaus.getMahdollisetPisteet(nopat.getNopat());
     }
 
     public LinkedHashMap<String, Integer> getPisteTiedostot() {
@@ -100,8 +100,8 @@ public class Pelaaja{
 
     // Pisteiden lisääminen
     // Tarvitsee pisteiden laskennan
-    public void lisaaPisteet(String nimi, int pisteet) {
-        this.pistekirjaus.lisaaPisteet(nimi, pisteet);
+    public void lisaaPisteet(String nimi) {
+        this.pistekirjaus.lisaaPisteet(nimi);
 
         this.pistekirjaus.tallennaPisteetTiedostoon(this.nimi);
     }

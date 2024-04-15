@@ -93,16 +93,17 @@ public class Kayttoliittyma {
     }
 
     // Pistekortti
-    public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi) {
+    public void piirraPisteKortti(Map<String, Integer> pisteet, String nimi, Map<String, Integer> mahdollisetPisteet) {
         System.out.println(VIHREA + "Vihreä = valittu piste" + RESETOI_VARI);
         System.out.println(PUNAINEN + "Punainen = Mahdollinen piste" + RESETOI_VARI);
 
         // -1 arvo tarkoittaa tyhjää arvoa. Arvoa jota pelaaja ei ole vielä valinnut
         for(Map.Entry<String, Integer> sisalto : pisteet.entrySet())  {
             int sisaltoArvo = sisalto.getValue();
+            String sisaltoAvain = sisalto.getKey();
 
             // Jos kyseessä on ykköset niin tulostetaan piste kortin otsikko.
-            if(sisalto.getKey().equals("Ykkoset")) {
+            if(sisaltoAvain.equals("Ykkoset")) {
                 System.out.println("-----------------------------");
                 System.out.println("|       PISTE KORTTI        |");
                 System.out.printf("| %-25s |\n", nimi);
@@ -110,10 +111,10 @@ public class Kayttoliittyma {
             }
 
             // Jos kyseessä on välisumma, pari, summa tai neljä samaa niin tulostetaan tyhjä rivi ennen numeroa.
-            if(sisalto.getKey().equals("Valisumma") || 
-                sisalto.getKey().equals("Summa") || 
-                sisalto.getKey().equals("Nelja samaa") ||
-                sisalto.getKey().equals("Pari")) 
+            if(sisaltoAvain.equals("Valisumma") || 
+                sisaltoAvain.equals("Summa") || 
+                sisaltoAvain.equals("Pieni suora") ||
+                sisaltoAvain.equals("Pari")) 
             {
                 System.out.printf("| %-25s |\n", " ");
             }
@@ -121,9 +122,14 @@ public class Kayttoliittyma {
             // Tulostetaan piste kortin arvot.
             // Jos arvo on -1 niin tulostetaan tyhjä arvo.
             if(sisaltoArvo == -1) {
-                System.out.printf("| %-25s |\n", sisalto.getKey());
+                if (mahdollisetPisteet.containsKey(sisaltoAvain)) {
+                    int mahdollinenPisteArvo = mahdollisetPisteet.get(sisaltoAvain);
+                    System.out.printf(PUNAINEN + "| %-19s %5d |\n" + RESETOI_VARI, sisaltoAvain, mahdollinenPisteArvo);
+                } else {
+                    System.out.printf("| %-25s |\n", sisaltoAvain);
+                }
             } else {
-                System.out.printf(VIHREA + "| %-19s %5d |\n" + RESETOI_VARI, sisalto.getKey(), sisaltoArvo);
+                System.out.printf(VIHREA + "| %-19s %5d |\n" + RESETOI_VARI, sisaltoAvain, sisaltoArvo);
             }
 
         }
