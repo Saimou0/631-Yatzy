@@ -30,6 +30,9 @@ public class Yksinpeli {
         this.pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
     }
 
+    // * FIXME Pelin logiikassa on jotain ongelmaa ja käyttöliittymän piirtämisessä on jokin ongelma. 
+    // * this.käyttöliittymänPiirtäminen() -metodi ei toimi oikein pelin loppu puolella.
+    
     // Pelin jatkumisen looppi
     public void pelinLoop() {
         boolean peliJatkuu = true;
@@ -45,14 +48,15 @@ public class Yksinpeli {
                 pelaajanNykyinenVuoro = pelaaja.vuorojenMaara;
                 ensimmainenHeitto = true;
                 heittojenMaraa = 3;
+
+                // ! TODO Nopat ei pysy lukittuina heittojen välillä.
                 this.avaaKaikkiNopat();
             }
-
+            
             // Lopetetaan peli jos pelin päivitys palauttaa 0
             if (pelinPaivitys() == 0) {
                 peliJatkuu = false;
             }
-
 
         }
     }
@@ -111,7 +115,7 @@ public class Yksinpeli {
                 kayttoliittyma.tyhjennaTerminaali();
                 kayttoliittyma.piirraLukitseTila(pelaaja.getLukitutNopat());
                 kayttoliittyma.piirraNopat(pelaaja.getNopat());
-                pelaaja.getLukitutNopat();
+                // pelaaja.getLukitutNopat();
 
                 int pelaajanSyotto = pelaajaSyotto.pelaajanSyottoInt();
                 if (pelaajanSyotto >= 1 && pelaajanSyotto <= 5) {
@@ -213,7 +217,6 @@ public class Yksinpeli {
                         kayttoliittyma.pelaajaJoValinnutPisteet();
                     }
                     break;
-                //FIXME: 1-6 TOIMII
                 case "Pari":
                     if (pelaaja.getPisteet().get("Pari") == -1) {
                         pelaaja.lisaaPisteet("Pari");

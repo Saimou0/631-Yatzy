@@ -1,6 +1,5 @@
 // Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
-//TODO: import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -109,7 +108,7 @@ public class Menunlogiikka {
             // Mennään koko tiedostot mäppi läpi
             // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
             
-            // FIXME: Does not work at all
+            // !TODO: Does not work at all
             // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
             //     String kokoAvain = pisteTiedosto.getKey().toString();
             //     String avaimenNimi = kokoAvain.split("_")[0];
