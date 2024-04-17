@@ -31,7 +31,7 @@ public class Yksinpeli {
     }
 
     // * FIXME Pelin logiikassa on jotain ongelmaa ja käyttöliittymän piirtämisessä on jokin ongelma. 
-    // * this.käyttöliittymänPiirtäminen() -metodi ei toimi oikein pelin loppu puolella.
+    // * FIXME Viimeset kolme pistettä. this.käyttöliittymänPiirtäminen() -metodi ei toimi. Antaa vain lopettamisen ja pisteiden valinnan.
     
     // Pelin jatkumisen looppi
     public void pelinLoop() {

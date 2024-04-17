@@ -280,15 +280,15 @@ public class Pistekirjaus {
         for(int i = nopatLista.length - 1; i > 1; i--) {
             if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
                 summa = nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
-            }
-
-            if(i > 2) {
-                for(int j = i - 2; j > 0; j--) {
-                    if (nopatLista[j] == nopatLista[j - 1]) {
-                        return summa + nopatLista[j] + nopatLista[j - 1];
+                if(i > 2) {
+                    for(int j = i - 2; j > 0; j--) {
+                        if (nopatLista[j] == nopatLista[j - 1]) {
+                            return summa + nopatLista[j] + nopatLista[j - 1];
+                        }
                     }
                 }
             }
+
         }
 
         return 0; 
