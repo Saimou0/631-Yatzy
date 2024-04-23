@@ -25,6 +25,21 @@ public class PelaajaSyotto {
         }
     }
 
+    public String tarkistaKayttajanNimi() {
+        try {
+            String syotto = lukija.nextLine();
+            
+            if(syotto.length() > 0) {
+                return syotto;
+            }
+
+            return "";
+        } catch (Exception e) {
+            kayttoliittyma.piirraVirheSyotto();
+            return "";
+        }
+    }
+
     private static final int HEITA_TILA = 1;
     private static final int LUKITSE_TILA = 2;
     private static final int VALITSE_PISTEET_TILA = 3;

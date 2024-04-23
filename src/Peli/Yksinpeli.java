@@ -49,7 +49,6 @@ public class Yksinpeli {
                 ensimmainenHeitto = true;
                 heittojenMaraa = 3;
 
-                // ! TODO Nopat ei pysy lukittuina heittojen välillä.
                 this.avaaKaikkiNopat();
             }
             
@@ -62,7 +61,7 @@ public class Yksinpeli {
     }
 
     // Päivittää pelin ja käyttöliittymän
-    public int pelinPaivitys() {
+    private int pelinPaivitys() {
         kayttoliittyma.tyhjennaTerminaali();
 
         // Piirretään pelaajan pistekortti
@@ -82,6 +81,8 @@ public class Yksinpeli {
             System.out.println("Heitä nopat");
         }
 
+        kayttoliittyma.piirraLukitutNopat(pelaaja.getLukitutNopat());
+
         // Piirretään käyttöliittymä
         kayttoliittymanPiirtaminen();
 
@@ -92,11 +93,12 @@ public class Yksinpeli {
     // Nopat
     // Noppien heittäminen
     public void heitaNopat() {
-        // Katsotaan onko pelaajalla heittoja jäljellä
+        // Katsotaan onko ensimmäinen heitto
         if(heittojenMaraa == 3 && ensimmainenHeitto == true) {
             ensimmainenHeitto = false;
         }
-
+        
+        // Katsotaan onko pelaajalla heittoja jäljellä
         if (heittojenMaraa > 0) {
             // Heitetään nopat ja vähennetään heittojen määrää
             pelaaja.heitaNopat();
@@ -121,7 +123,7 @@ public class Yksinpeli {
                 if (pelaajanSyotto >= 1 && pelaajanSyotto <= 5) {
                     pelaaja.lukitseJaVapautaNoppia(pelaajanSyotto);
                 } else if (pelaajanSyotto == -1) {
-                    break;
+                    lukitseTila = false;
                 } else {
                     kayttoliittyma.piirraVirheSyotto();
                 }
@@ -133,6 +135,7 @@ public class Yksinpeli {
     }
 
     // Avaa kaikkien noppien lukitukset
+    // * FIXME Siirrä pelaajalle
     private void avaaKaikkiNopat() {
         for (Map.Entry<Integer, Boolean> entry : pelaaja.getLukitutNopat().entrySet()) {
             if (entry.getValue() == true) {
@@ -316,9 +319,8 @@ public class Yksinpeli {
     }
 
     // Käyttöliittymä
-    // Toimii
     // Päätellään pelajaan vaihtoehdot ja piirretään ne käyttöliittymään.
-    public void kayttoliittymanPiirtaminen() {
+    private void kayttoliittymanPiirtaminen() {
         // Lisätään pelaajan vaihtoehdot listaan.
         tilaLista.put("Heitä", 1);
         tilaLista.put("Lukitse", 1);

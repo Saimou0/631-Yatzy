@@ -19,7 +19,7 @@ public class Nopat {
         lukitutNopat.put(4, false);
         lukitutNopat.put(5, false);
     }
-
+    // ! FIXME Noppien lukitus ei pysy. 
     public void heitaNopat() {
         for (int i = 0; i < NOPPAMAARA; i++) {
             if(lukitutNopat.get(i + 1) == false) {
@@ -29,14 +29,14 @@ public class Nopat {
     }
 
     public void lukitseNoppa(int indeksi) {
-        if (indeksi >= 0 && indeksi <= NOPPAMAARA) {
+        if (indeksi >= 1 && indeksi <= NOPPAMAARA) {
             lukitutNopat.put(indeksi, true);
         }
 
     }
 
     public void vapautaNoppa(int indeksi) {
-        if (indeksi >= 0 && indeksi <= NOPPAMAARA) {
+        if (indeksi >= 1 && indeksi <= NOPPAMAARA) {
             lukitutNopat.put(indeksi, false);
         }
     }

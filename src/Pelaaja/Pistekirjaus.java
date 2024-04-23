@@ -70,12 +70,12 @@ public class Pistekirjaus {
         String[] tiedostotLista = PISTEETKANSIO.list();
         LinkedHashMap<String, Integer> tiedostot = new LinkedHashMap<String, Integer>();
 
-        for(int i = 0; i < tiedostotLista.length; i++) {
+        for (int i = 0; i < tiedostotLista.length; i++) {
             tiedostot.put(tiedostotLista[i], i + 1);
         }
 
         return tiedostot;
-    } 
+    }
 
     // Tarkistaa onko Pisteet kansiossa teksti tiedostoja
     public boolean onkoTiedostoja() {
@@ -112,7 +112,7 @@ public class Pistekirjaus {
 
     public void laskeMahdollisetPisteet(int[] nopat) {
         mahdollisetPisteet.clear();
-        
+
         // 1 - 6
         int ykkostenSumma = laskeNopanSumma(nopat, 1);
         int kakkostenSumma = laskeNopanSumma(nopat, 2);
@@ -127,15 +127,20 @@ public class Pistekirjaus {
         mahdollisetPisteet.put("Neloset", nelostenSumma);
         mahdollisetPisteet.put("Viitoset", viitostenSumma);
         mahdollisetPisteet.put("Kuutoset", kuutostenSumma);
-        
+
         // Samat
-        int pari = laskePari(nopat);
-        int kaksiParia = laskeKaksiParia(nopat);
-        int kolmeSamaa = laskeKolmeSamaa(nopat);
-        int neljaSamaa = laskeNeljaSamaa(nopat);
-        
+        int pari = laskeSamat(nopat, 2);
+        // int kaksiParia = laskeSamat(nopat, 4);
+        int kolmeSamaa = laskeSamat(nopat, 3);
+        int neljaSamaa = laskeSamat(nopat, 4);
+
+        // int pari = laskePari(nopat);
+        // int kaksiParia = laskeKaksiParia(nopat);
+        // int kolmeSamaa = laskeKolmeSamaa(nopat);
+        // int neljaSamaa = laskeNeljaSamaa(nopat);
+
         mahdollisetPisteet.put("Pari", pari);
-        mahdollisetPisteet.put("Kaksi paria", kaksiParia);
+        // mahdollisetPisteet.put("Kaksi paria", kaksiParia);
         mahdollisetPisteet.put("Kolme samaa", kolmeSamaa);
         mahdollisetPisteet.put("Nelja samaa", neljaSamaa);
 
@@ -144,8 +149,8 @@ public class Pistekirjaus {
         int isoSuora = laskeIsoSuora(nopat);
         int taysikasi = laskeTaysikasi(nopat);
         int sattuma = laskeSattuma(nopat);
-        int yatzy = laskeYatzy(nopat);
-        
+        int yatzy = laskeSamat(nopat, 5);
+
         mahdollisetPisteet.put("Pieni suora", pieniSuora);
         mahdollisetPisteet.put("Iso suora", isoSuora);
         mahdollisetPisteet.put("Taysikasi", taysikasi);
@@ -163,14 +168,42 @@ public class Pistekirjaus {
         return summa;
     }
 
-    private int laskePari(int[] nopat) {
+    private int laskeSamat(int[] nopat, int maara) {
         int[] nopatLista = nopat;
-
         Arrays.sort(nopatLista);
 
-        for(int i = nopatLista.length - 1; i > 0; i--) {
-            if (nopatLista[i] == nopatLista[i - 1]) {
-                return nopatLista[i] + nopatLista[i - 1];
+        // Pari
+        if (maara == 2) {
+            for (int i = nopatLista.length - 1; i > 0; i--) {
+                if (nopatLista[i] == nopatLista[i - 1]) {
+                    return nopatLista[i] + nopatLista[i - 1];
+                }
+            }
+        }
+        // Kolme samaa
+        if (maara == 3) {
+            for (int i = nopatLista.length - 1; i > 1; i--) {
+                if (nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
+                    return nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
+                }
+            }
+        }
+        // Neljä samaa
+        if (maara == 4) {
+            for (int i = nopatLista.length - 1; i > 2; i--) {
+                if (nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]
+                        && nopatLista[i] == nopatLista[i - 3]) {
+                    return nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2] + nopatLista[i - 3];
+                }
+            }
+        }
+        // Yatzy
+        if (maara == 5) {
+            for (int i = nopatLista.length - 1; i > 3; i--) {
+                if (nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]
+                        && nopatLista[i] == nopatLista[i - 3] && nopatLista[i] == nopatLista[i - 4]) {
+                    return 50;
+                }
             }
         }
 
@@ -183,52 +216,22 @@ public class Pistekirjaus {
         Arrays.sort(nopatLista);
         int summa = 0;
 
-        for(int i = nopatLista.length - 1; i > 0; i--) {
-            if(laskeNeljaSamaa(nopatLista) == 0) {
-                if (nopatLista[i] == nopatLista[i - 1]) {
-                    summa = nopatLista[i] + nopatLista[i - 1];
-                }
-                
-                if(i > 2) {
-                    for(int j = i - 2; j > 0; j--) {
-                        if (nopatLista[j] == nopatLista[j - 1]) {
-                            return summa + nopatLista[j] + nopatLista[j - 1];
-                        }
-                    }
-                }
-            }
+        // for(int i = nopatLista.length - 1; i > 0; i--) {
+        // if(laskeNeljaSamaa(nopatLista) == 0) {
+        // if (nopatLista[i] == nopatLista[i - 1]) {
+        // summa = nopatLista[i] + nopatLista[i - 1];
+        // }
 
+        // if(i > 2) {
+        // for(int j = i - 2; j > 0; j--) {
+        // if (nopatLista[j] == nopatLista[j - 1]) {
+        // return summa + nopatLista[j] + nopatLista[j - 1];
+        // }
+        // }
+        // }
+        // }
 
-        }
-
-
-        return 0;
-    }
-
-    private int laskeKolmeSamaa(int[] nopat) {
-        int[] nopatLista = nopat;
-
-        Arrays.sort(nopatLista);
-
-        for(int i = nopatLista.length - 1; i > 1; i--) {
-            if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
-                return nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
-            }
-        }
-
-        return 0;
-    }
-
-    private int laskeNeljaSamaa(int[] nopat) {
-        int[] nopatLista = nopat;
-
-        Arrays.sort(nopatLista);
-
-        for(int i = nopatLista.length - 1; i > 2; i--) {
-            if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2] && nopatLista[i] == nopatLista[i - 3]) {
-                return nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2] + nopatLista[i - 3];
-            }
-        }
+        // }
 
         return 0;
     }
@@ -236,15 +239,15 @@ public class Pistekirjaus {
     private int laskePieniSuora(int[] nopat) {
         int[] nopatLista = nopat;
         Arrays.sort(nopatLista);
-        int[] testiLista = {1, 2, 3, 4, 5};
+        int[] testiLista = { 1, 2, 3, 4, 5 };
         boolean onkoPieniSuora = true;
-        for(int i = 0; i < nopatLista.length; i++) {
-            if(nopatLista[i] != testiLista[i]) {
+        for (int i = 0; i < nopatLista.length; i++) {
+            if (nopatLista[i] != testiLista[i]) {
                 onkoPieniSuora = false;
             }
         }
 
-        if(onkoPieniSuora) {
+        if (onkoPieniSuora) {
             return 15;
         }
 
@@ -252,23 +255,24 @@ public class Pistekirjaus {
     }
 
     // TODO Ei toimi
+    // * Voi varmaan yhdistää pienen suoran kanssa
     private int laskeIsoSuora(int[] nopat) {
         int[] nopatLista = nopat;
         Arrays.sort(nopatLista);
-        int[] testiLista = {2, 3, 4, 5, 6};
+        int[] testiLista = { 2, 3, 4, 5, 6 };
         boolean onkoIsoSuora = true;
 
-        for(int i = 0; i > nopatLista.length; i++) {
-            if(nopatLista[i] != testiLista[i]) {
+        for (int i = 0; i < nopatLista.length; i++) {
+            if (nopatLista[i] != testiLista[i]) {
                 onkoIsoSuora = false;
             }
         }
 
-        if(onkoIsoSuora) {
+        if (onkoIsoSuora) {
             return 20;
         }
 
-        return 0; 
+        return 0;
     }
 
     // TODO Ei toimi
@@ -277,11 +281,11 @@ public class Pistekirjaus {
         Arrays.sort(nopatLista);
         int summa = 0;
 
-        for(int i = nopatLista.length - 1; i > 1; i--) {
-            if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
+        for (int i = nopatLista.length - 1; i > 1; i--) {
+            if (nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
                 summa = nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
-                if(i > 2) {
-                    for(int j = i - 2; j > 0; j--) {
+                if (i > 2) {
+                    for (int j = i - 2; j > 0; j--) {
                         if (nopatLista[j] == nopatLista[j - 1]) {
                             return summa + nopatLista[j] + nopatLista[j - 1];
                         }
@@ -291,29 +295,16 @@ public class Pistekirjaus {
 
         }
 
-        return 0; 
+        return 0;
     }
 
     private int laskeSattuma(int[] nopat) {
         int summa = 0;
-        for(int noppa : nopat) {
+        for (int noppa : nopat) {
             summa += noppa;
         }
 
         return summa;
-    }
-
-    private int laskeYatzy(int[] nopat) {
-        int[] nopatLista = nopat;
-        Arrays.sort(nopatLista);
-
-        for(int i = nopatLista.length - 1; i > 3; i--) {
-            if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2] && nopatLista[i] == nopatLista[i - 3] && nopatLista[i] == nopatLista[i - 4]) {
-                return 50;
-            }
-        }
-
-        return 0; 
     }
 
 }

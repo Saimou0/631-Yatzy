@@ -1,5 +1,6 @@
 // Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ import Peli.Yksinpeli;
 import Peli.PelaajaSyotto;
 
 public class Menunlogiikka {
-    
+
     private Kayttoliittyma kayttoliittyma;
     private Yksinpeli yksinpeli;
     private PelaajaSyotto pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
@@ -43,7 +44,6 @@ public class Menunlogiikka {
                     break;
 
                 case LOPETA_VAIHTOEHTO:
-                    System.out.println("----Nähdään pian!----");
                     sopivaVaihtoehto = true;
                     break;
 
@@ -53,15 +53,15 @@ public class Menunlogiikka {
 
         }
     }
-    
+
     // Kysytään pelaajan nimi ja luodaan pelaaja.
     private void initYksinpeli() {
         kayttoliittyma.tyhjennaTerminaali();
-        
-        kayttoliittyma.kysyPelaajanNimi();
-        String nimi = tarkistaKayttajanNimi();
 
-        if(nimi == "") {
+        kayttoliittyma.kysyPelaajanNimi();
+        String nimi = pelaajaSyotto.tarkistaKayttajanNimi();
+
+        if (nimi == "") {
             nimi = "Pelaaja " + (1);
         } else {
             this.pelaaja = new Pelaaja(nimi);
@@ -80,18 +80,19 @@ public class Menunlogiikka {
     }
 
     // Pelaajan vastustajan luominen, vanhasta tiedostosta
-    public Pelaaja paatteleVastustaja(Pelaaja pelaaja) {
-        LinkedHashMap<String, Integer> pisteTiedostoLista = pistekirjaus.getPisteTiedostot(); 
-        
-        // Iterator<Map.Entry<String, Integer>> iteraattori = pisteTiedostoLista.entrySet().iterator();
+    private Pelaaja paatteleVastustaja(Pelaaja pelaaja) {
+        LinkedHashMap<String, Integer> pisteTiedostoLista = pistekirjaus.getPisteTiedostot();
+
+        // Iterator<Map.Entry<String, Integer>> iteraattori =
+        // pisteTiedostoLista.entrySet().iterator();
 
         // while (iteraattori.hasNext()) {
-        //     Map.Entry<String, Integer> pisteTiedosto = iteraattori.next();
-        //     String kokoAvain = pisteTiedosto.getKey().toString();
-        //     String avaimenNimi = kokoAvain.split("_")[0];
-        //     if(avaimenNimi.equals(pelaaja.getNimi())) {
-                
-        //     }
+        // Map.Entry<String, Integer> pisteTiedosto = iteraattori.next();
+        // String kokoAvain = pisteTiedosto.getKey().toString();
+        // String avaimenNimi = kokoAvain.split("_")[0];
+        // if(avaimenNimi.equals(pelaaja.getNimi())) {
+
+        // }
         // }
 
         kayttoliittyma.piirraValitseVastustaja(pisteTiedostoLista);
@@ -106,26 +107,29 @@ public class Menunlogiikka {
             }
 
             // Mennään koko tiedostot mäppi läpi
-            // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
-            
+            // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa
+            // pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos
+            // jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
+            // * Mieti kanttiiko tää kaikki sirtää Yatzy.javaan
             // !TODO: Does not work at all
-            // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet()) {
-            //     String kokoAvain = pisteTiedosto.getKey().toString();
-            //     String avaimenNimi = kokoAvain.split("_")[0];
-                
-            //     // Jos pelaajan syötto on suurempi kun tiedostojen määrä tai pienempi kun 0, piirretään virheilmoitus.
-            //     if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
-            //         kayttoliittyma.piirraVirheSyotto();
-            //     } else {
-            //         if(avaimenNimi.equals(pelaaja.getNimi())) {
-            //             System.out.println("Et voi pelata tätä tiedostoa vastaan.");
-            //         } else {
+            // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet())
+            // {
+            // String kokoAvain = pisteTiedosto.getKey().toString();
+            // String avaimenNimi = kokoAvain.split("_")[0];
 
-            //         }
-            //     }
-                
+            // // Jos pelaajan syötto on suurempi kun tiedostojen määrä tai pienempi kun 0,
+            // piirretään virheilmoitus.
+            // if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
+            // kayttoliittyma.piirraVirheSyotto();
+            // } else {
+            // if(avaimenNimi.equals(pelaaja.getNimi())) {
+            // System.out.println("Et voi pelata tätä tiedostoa vastaan.");
+            // } else {
+
+            // }
             // }
 
+            // }
 
         }
 
@@ -147,24 +151,6 @@ public class Menunlogiikka {
         }
 
         return vastustaja;
-    }
-
-    // Utility
-
-    // Ottaa ja tarkistaa käyttäjän nimen syötön.
-    private String tarkistaKayttajanNimi() {
-        try {
-            String syotto = lukija.nextLine();
-            
-            if(syotto.length() > 0) {
-                return syotto;
-            }
-
-            return "";
-        } catch (Exception e) {
-            kayttoliittyma.piirraVirheSyotto();
-            return "";
-        }
     }
 
 }
