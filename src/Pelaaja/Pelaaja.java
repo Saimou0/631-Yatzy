@@ -48,13 +48,6 @@ public class Pelaaja{
 
     }
 
-    // Poistaa KAIKKI piste tiedostot
-    public void poistaPisteet() {
-        if(pistekirjaus.onkoTiedostoja()) {
-            pistekirjaus.poistaPisteTiedostot();
-        }
-    }
-
     // Nopat
     // Heittää nopat
     public void heitaNopat() {
@@ -75,6 +68,15 @@ public class Pelaaja{
         }
     }
 
+    // Avaa kaikkien noppien lukitukset
+    public void avaaKaikkiNopat() {
+        for (Map.Entry<Integer, Boolean> entry : this.getLukitutNopat().entrySet()) {
+            if (entry.getValue() == true) {
+                this.lukitseJaVapautaNoppia((entry.getKey()));
+            }
+        }
+    }
+
     // Palauttaa lukitut nopat
     public LinkedHashMap<Integer, Boolean> getLukitutNopat() {
         return nopat.getLukitutNopat();
@@ -88,6 +90,14 @@ public class Pelaaja{
     // Palautaa mahdolliset pisteet
     public Map<String, Integer> getMahdollisetPisteet() {
         return pistekirjaus.getMahdollisetPisteet(nopat.getNopat());
+    }
+
+    public void laskeValisumma() {
+        pistekirjaus.laskeValisumma();
+    }
+
+    public void laskeSumma() {
+        pistekirjaus.laskeSumma();
     }
 
     public LinkedHashMap<String, Integer> getPisteTiedostot() {

@@ -14,7 +14,9 @@ public class Pistekirjaus {
     LinkedHashMap<String, Integer> pisteet = new LinkedHashMap<String, Integer>();
     private final File PISTEETKANSIO = new File("pisteet/");
 
-    // TODO: Välisumman ja summan laskemiseen metodit.
+    private final String[] numerot = { "Ykkoset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"};
+
+    // TODO: Välisumman laskemiseen metodit.
     // TODO: Rikkinäiset pisteiden laskemisen metodit.
 
     // Metodi pisteiden tallentamiseen tekstitiedostoon.
@@ -85,20 +87,6 @@ public class Pistekirjaus {
             System.out.println("Tiedostoja ei ole");
             return false;
         }
-
-    }
-
-    // Poistaa kaikki tiedostot Pisteet kansiossa
-    public void poistaPisteTiedostot() {
-        File[] pisteTiedostot = PISTEETKANSIO.listFiles();
-        for (File tiedosto1 : pisteTiedostot) {
-            if (tiedosto1.isFile()) {
-                boolean isDeleted = tiedosto1.delete();
-                if (!isDeleted) {
-                    System.out.println("Tiedoston: " + tiedosto1.getName() + " poistaminen ei onnistunut");
-                }
-            }
-        }
     }
 
     public void lisaaPisteet(String nimi) {
@@ -114,33 +102,19 @@ public class Pistekirjaus {
         mahdollisetPisteet.clear();
 
         // 1 - 6
-        int ykkostenSumma = laskeNopanSumma(nopat, 1);
-        int kakkostenSumma = laskeNopanSumma(nopat, 2);
-        int kolmostenSumma = laskeNopanSumma(nopat, 3);
-        int nelostenSumma = laskeNopanSumma(nopat, 4);
-        int viitostenSumma = laskeNopanSumma(nopat, 5);
-        int kuutostenSumma = laskeNopanSumma(nopat, 6);
-
-        mahdollisetPisteet.put("Ykkoset", ykkostenSumma);
-        mahdollisetPisteet.put("Kakkoset", kakkostenSumma);
-        mahdollisetPisteet.put("Kolmoset", kolmostenSumma);
-        mahdollisetPisteet.put("Neloset", nelostenSumma);
-        mahdollisetPisteet.put("Viitoset", viitostenSumma);
-        mahdollisetPisteet.put("Kuutoset", kuutostenSumma);
+        for (int i = 1; i <= 6; i++) {
+            int summa = laskeNopanSumma(nopat, i);
+            mahdollisetPisteet.put(numerot[i - 1], summa);
+        }
 
         // Samat
         int pari = laskeSamat(nopat, 2);
-        // int kaksiParia = laskeSamat(nopat, 4);
+        int kaksiParia = laskeSamat(nopat, 4);
         int kolmeSamaa = laskeSamat(nopat, 3);
         int neljaSamaa = laskeSamat(nopat, 4);
 
-        // int pari = laskePari(nopat);
-        // int kaksiParia = laskeKaksiParia(nopat);
-        // int kolmeSamaa = laskeKolmeSamaa(nopat);
-        // int neljaSamaa = laskeNeljaSamaa(nopat);
-
         mahdollisetPisteet.put("Pari", pari);
-        // mahdollisetPisteet.put("Kaksi paria", kaksiParia);
+        mahdollisetPisteet.put("Kaksi paria", kaksiParia);
         mahdollisetPisteet.put("Kolme samaa", kolmeSamaa);
         mahdollisetPisteet.put("Nelja samaa", neljaSamaa);
 
@@ -169,7 +143,7 @@ public class Pistekirjaus {
     }
 
     private int laskeSamat(int[] nopat, int maara) {
-        int[] nopatLista = nopat;
+        int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
 
         // Pari
@@ -212,35 +186,35 @@ public class Pistekirjaus {
 
     // TODO EI TOIMI
     private int laskeKaksiParia(int[] nopat) {
-        int[] nopatLista = nopat;
+        int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
         int summa = 0;
+        boolean kaksiParia = false;
 
-        // for(int i = nopatLista.length - 1; i > 0; i--) {
-        // if(laskeNeljaSamaa(nopatLista) == 0) {
-        // if (nopatLista[i] == nopatLista[i - 1]) {
-        // summa = nopatLista[i] + nopatLista[i - 1];
-        // }
-
-        // if(i > 2) {
-        // for(int j = i - 2; j > 0; j--) {
-        // if (nopatLista[j] == nopatLista[j - 1]) {
-        // return summa + nopatLista[j] + nopatLista[j - 1];
-        // }
-        // }
-        // }
+        // for(int i = 0; i < nopatLista.length; i++) {
+        //     if (nopatLista[i] == nopatLista[i - 1]) {
+                
+        //     }
         // }
 
+        // if(this.laskeSamat(nopatLista, 2) != 0) {
+        //     for (int i = nopatLista.length - 1; i > 0; i--) {
+        //         if (nopatLista[i] == nopatLista[i - 1]) {
+        //             summa += nopatLista[i] + nopatLista[i - 1];
+        //             return summa;
+        //         }
+        //     }
         // }
 
         return 0;
     }
 
     private int laskePieniSuora(int[] nopat) {
-        int[] nopatLista = nopat;
+        int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
         int[] testiLista = { 1, 2, 3, 4, 5 };
         boolean onkoPieniSuora = true;
+
         for (int i = 0; i < nopatLista.length; i++) {
             if (nopatLista[i] != testiLista[i]) {
                 onkoPieniSuora = false;
@@ -254,10 +228,8 @@ public class Pistekirjaus {
         return 0;
     }
 
-    // TODO Ei toimi
-    // * Voi varmaan yhdistää pienen suoran kanssa
     private int laskeIsoSuora(int[] nopat) {
-        int[] nopatLista = nopat;
+        int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
         int[] testiLista = { 2, 3, 4, 5, 6 };
         boolean onkoIsoSuora = true;
@@ -275,24 +247,26 @@ public class Pistekirjaus {
         return 0;
     }
 
-    // TODO Ei toimi
+    // TODO Melkein toimii
+    // * 3+3+3+2+2 toimii
+    // * 3+3+3+2+1 myös toimii
+    // * 3+3+1+2+2 ei toimi
     private int laskeTaysikasi(int[] nopat) {
-        int[] nopatLista = nopat;
+        int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
         int summa = 0;
 
-        for (int i = nopatLista.length - 1; i > 1; i--) {
-            if (nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
-                summa = nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
-                if (i > 2) {
-                    for (int j = i - 2; j > 0; j--) {
-                        if (nopatLista[j] == nopatLista[j - 1]) {
-                            return summa + nopatLista[j] + nopatLista[j - 1];
-                        }
-                    }
+        if(laskeSamat(nopatLista, 2) != 0 && laskeSamat(nopatLista, 3) != 0 
+            && laskeSamat(nopatLista, 4) == 0 && laskeSamat(nopatLista, 5) == 0) {
+            for (int i = nopatLista.length - 1; i > 1; i--) {
+                if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] != nopatLista[i - 2]) {
+                    summa += nopatLista[i] + nopatLista[i - 1];
+                } else if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
+                    summa += nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
                 }
             }
 
+            return summa;
         }
 
         return 0;
@@ -305,6 +279,37 @@ public class Pistekirjaus {
         }
 
         return summa;
+    }
+
+    public void laskeValisumma() {
+        int summa = 0;
+
+        for(String nimi : numerot) {
+            Integer pisteet = this.pisteet.get(nimi);
+            if(pisteet == null || pisteet == -1) {
+                return;
+            }
+
+            summa += pisteet;
+        }
+        
+        this.pisteet.put("Valisumma", summa);
+    }
+
+    public void laskeSumma() {
+        int summa = 0;
+
+        for (Map.Entry<String, Integer> merkinta : pisteet.entrySet()) {
+            if(merkinta.getValue() == -1 || merkinta.getValue() == null) {
+                return;
+            }
+
+            if (merkinta.getKey() != "Valisumma"){
+                summa += merkinta.getValue();
+            }
+        }
+
+        this.pisteet.put("Summa", summa);
     }
 
 }

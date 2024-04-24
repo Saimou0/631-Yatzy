@@ -8,7 +8,6 @@ import Kayttoliittyma.Kayttoliittyma;
 import Pelaaja.Pelaaja;
 
 public class Yksinpeli {
-
     Kayttoliittyma kayttoliittyma;
     PelaajaSyotto pelaajaSyotto;
     Scanner lukija = new Scanner(System.in);
@@ -29,28 +28,30 @@ public class Yksinpeli {
         this.vastustaja = vastustaja;
         this.pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
     }
-
-    // * FIXME Pelin logiikassa on jotain ongelmaa ja käyttöliittymän piirtämisessä on jokin ongelma. 
-    // * FIXME Viimeset kolme pistettä. this.käyttöliittymänPiirtäminen() -metodi ei toimi. Antaa vain lopettamisen ja pisteiden valinnan.
     
     // Pelin jatkumisen looppi
     public void pelinLoop() {
         boolean peliJatkuu = true;
         while (peliJatkuu) {
-            if (pelaaja.vuorojenMaara == 16) {
+            
+            if (pelaaja.vuorojenMaara == 17) {
                 // Laske pisteet yhteen ja tallena ne tiedostoon.
                 // Jos pelaa jo valmista tiedostoa vastaan, vertaa pisteitä.
                 peliJatkuu = false;
             }
+            
             
             // Nollataan heitot ja nollataan ensimmäinen heitto kun pelaajalla alkaa uusi vuoro
             if(pelaajanNykyinenVuoro < pelaaja.vuorojenMaara) {
                 pelaajanNykyinenVuoro = pelaaja.vuorojenMaara;
                 ensimmainenHeitto = true;
                 heittojenMaraa = 3;
-
-                this.avaaKaikkiNopat();
+                
+                pelaaja.avaaKaikkiNopat();
             }
+            
+            pelaaja.laskeValisumma();
+            pelaaja.laskeSumma();
             
             // Lopetetaan peli jos pelin päivitys palauttaa 0
             if (pelinPaivitys() == 0) {
@@ -81,8 +82,6 @@ public class Yksinpeli {
             System.out.println("Heitä nopat");
         }
 
-        kayttoliittyma.piirraLukitutNopat(pelaaja.getLukitutNopat());
-
         // Piirretään käyttöliittymä
         kayttoliittymanPiirtaminen();
 
@@ -109,7 +108,7 @@ public class Yksinpeli {
         }
     }
 
-    // Noppien lukitseminen
+    // Noppien lukitsemisen tila
     public void noppienLukitseminen() {
         if (tilaLista.get("Lukitse") == 1) {
             boolean lukitseTila = true;
@@ -117,7 +116,6 @@ public class Yksinpeli {
                 kayttoliittyma.tyhjennaTerminaali();
                 kayttoliittyma.piirraLukitseTila(pelaaja.getLukitutNopat());
                 kayttoliittyma.piirraNopat(pelaaja.getNopat());
-                // pelaaja.getLukitutNopat();
 
                 int pelaajanSyotto = pelaajaSyotto.pelaajanSyottoInt();
                 if (pelaajanSyotto >= 1 && pelaajanSyotto <= 5) {
@@ -133,16 +131,6 @@ public class Yksinpeli {
             kayttoliittyma.piirraVirheSyotto();
         }
     }
-
-    // Avaa kaikkien noppien lukitukset
-    // * FIXME Siirrä pelaajalle
-    private void avaaKaikkiNopat() {
-        for (Map.Entry<Integer, Boolean> entry : pelaaja.getLukitutNopat().entrySet()) {
-            if (entry.getValue() == true) {
-                pelaaja.lukitseJaVapautaNoppia((entry.getKey()));
-            }
-        }
-    }
     
     //Pisteet
     public void pelaajanPisteValinta() {
@@ -152,170 +140,37 @@ public class Yksinpeli {
 
         boolean pisteValintaTila = true;
         while (pisteValintaTila) {
-            String kayttajanSyotto = lukija.nextLine();
-            
-            // Tarkistaa onko pelaaja jo valinnut pisteen, jos eivät niin lisätään pisteet
-            // muistiin.
-            switch (kayttajanSyotto) {
-                case "-1":
-                    pisteValintaTila = false;
-                    break;
+            String kayttajanSyotto = pelaajaSyotto.pelaajanSyottoString();
 
-                case "Ykkoset":
-                    if (pelaaja.getPisteet().get("Ykkoset") == -1) {
-                        pelaaja.lisaaPisteet("Ykkoset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                case "Kakkoset":
-                    if (pelaaja.getPisteet().get("Kakkoset") == -1) {
-                        pelaaja.lisaaPisteet("Kakkoset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                case "Kolmoset":
-                    if (pelaaja.getPisteet().get("Kolmoset") == -1) {
-                        pelaaja.lisaaPisteet("Kolmoset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                case "Neloset":
-                    if (pelaaja.getPisteet().get("Neloset") == -1) {
-                        pelaaja.lisaaPisteet("Neloset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                case "Viitoset":
-                    if (pelaaja.getPisteet().get("Viitoset") == -1) {
-                        pelaaja.lisaaPisteet("Viitoset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                case "Kuutoset":
-                    if (pelaaja.getPisteet().get("Kuutoset") == -1) {
-                        pelaaja.lisaaPisteet("Kuutoset");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                case "Pari":
-                    if (pelaaja.getPisteet().get("Pari") == -1) {
-                        pelaaja.lisaaPisteet("Pari");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                    
-                case "Kaksi paria":
-                    if (pelaaja.getPisteet().get("Kaksi paria") == -1) {
-                        pelaaja.lisaaPisteet("Kaksi paria");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                
-                case "Kolme samaa":
-                    if (pelaaja.getPisteet().get("Kolme samaa") == -1) {
-                        pelaaja.lisaaPisteet("Kolme samaa");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                
-                case "Nelja samaa":
-                    if (pelaaja.getPisteet().get("Nelja samaa") == -1) {
-                        pelaaja.lisaaPisteet("Nelja samaa");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                    
-                case "Pieni suora":
-                    if (pelaaja.getPisteet().get("Pieni suora") == -1) {
-                        pelaaja.lisaaPisteet("Pieni suora");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                
-                case "Iso suora":
-                    if (pelaaja.getPisteet().get("Iso suora") == -1) {
-                        pelaaja.lisaaPisteet("Iso suora");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                    
-                case "Taysikasi":
-                    if (pelaaja.getPisteet().get("Taysikasi") == -1) {
-                        pelaaja.lisaaPisteet("Taysikasi");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                    
-                case "Sattuma":
-                    if (pelaaja.getPisteet().get("Sattuma") == -1) {
-                        pelaaja.lisaaPisteet("Sattuma");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-                    
-                case "Yatzy":
-                    if (pelaaja.getPisteet().get("Yatzy") == -1) {
-                        pelaaja.lisaaPisteet("Yatzy");
-                        pelaaja.vuorojenMaara++;
-                        pisteValintaTila = false;
-                    } else {
-                        kayttoliittyma.pelaajaJoValinnutPisteet();
-                    }
-                    break;
-
-                default:
-                    kayttoliittyma.piirraVirheSyotto();
-                    break;
+            // Tarkistetaan haluaako pelaaja lopettaa pisteiden valinnan
+            if (kayttajanSyotto.equals("-1")) {
+                pisteValintaTila = false;
+                continue;
             }
+
+            // Tarkistetaan onko pelaajan syöttö olemassa pisteissä
+            if(!pelaaja.getPisteet().containsKey(kayttajanSyotto)) {
+                kayttoliittyma.piirraVirheSyotto();
+                continue;
+            }
+
+            // Estetään pelajaa valitsemasta summaa tai välisummaa.
+            if(kayttajanSyotto.equals("Summa") || kayttajanSyotto.equals("Valisumma")) {
+                kayttoliittyma.piirraVirheSyotto();
+                continue;
+            }
+
+            // Tarkistetaan onko pelaaja jo valinnut pisteen
+            if (pelaaja.getPisteet().get(kayttajanSyotto) != -1) {
+                kayttoliittyma.pelaajaJoValinnutPisteet();
+                continue;
+            }
+
+            // lisätään pisteet pelaajalle 
+            pelaaja.lisaaPisteet(kayttajanSyotto);
+            pelaaja.vuorojenMaara++;
+            pisteValintaTila = false;
         }
-        
     }
 
     // Käyttöliittymä
@@ -328,9 +183,9 @@ public class Yksinpeli {
         tilaLista.put("Lopeta Peli", 1);
         // tilaLista.put("Lopeta Peli", 1);
 
-        // Jos pelaaja on pelannut 14 kertaa, poistetaan heitä ja lukitse vaihtoehdot
+        // Jos pelaaja on pelannut 16 kertaa, poistetaan heitä ja lukitse vaihtoehdot
         // listasta.
-        if (pelaaja.vuorojenMaara >= 14) {
+        if (pelaaja.vuorojenMaara >= 16) {
             tilaLista.put("Heitä", 0);
             tilaLista.put("Lukitse", 0);
             tilaLista.put("Valitse Pisteet", 1);

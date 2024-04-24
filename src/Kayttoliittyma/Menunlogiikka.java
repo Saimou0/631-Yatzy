@@ -14,13 +14,15 @@ public class Menunlogiikka {
 
     private Kayttoliittyma kayttoliittyma;
     private Yksinpeli yksinpeli;
-    private PelaajaSyotto pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
-    private Pistekirjaus pistekirjaus = new Pistekirjaus();
+    private PelaajaSyotto pelaajaSyotto;
+    private Pistekirjaus pistekirjaus;
     Pelaaja pelaaja = null;
     Scanner lukija = new Scanner(System.in);
 
     public void pelinAloitus(Kayttoliittyma kayttoliittyma) {
         this.kayttoliittyma = kayttoliittyma;
+        pelaajaSyotto = new PelaajaSyotto(this.kayttoliittyma);
+        pistekirjaus = new Pistekirjaus();
         aloitusNaytto();
     }
 
@@ -59,7 +61,7 @@ public class Menunlogiikka {
         kayttoliittyma.tyhjennaTerminaali();
 
         kayttoliittyma.kysyPelaajanNimi();
-        String nimi = pelaajaSyotto.tarkistaKayttajanNimi();
+        String nimi = pelaajaSyotto.pelaajanSyottoString();
 
         if (nimi == "") {
             nimi = "Pelaaja " + (1);
@@ -110,8 +112,8 @@ public class Menunlogiikka {
             // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa
             // pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos
             // jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
-            // * Mieti kanttiiko tää kaikki sirtää Yatzy.javaan
             // !TODO: Does not work at all
+            // !Estä nimeäminen nollaksi
             // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet())
             // {
             // String kokoAvain = pisteTiedosto.getKey().toString();

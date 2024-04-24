@@ -25,7 +25,7 @@ public class PelaajaSyotto {
         }
     }
 
-    public String tarkistaKayttajanNimi() {
+    public String pelaajanSyottoString() {
         try {
             String syotto = lukija.nextLine();
             

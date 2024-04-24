@@ -204,22 +204,6 @@ public class Kayttoliittyma {
 
     }
 
-    // TODO Poista kun et tartte.
-    public void piirraLukitutNopat(LinkedHashMap<Integer, Boolean> lukitutNopat) {
-        System.out.println("----Valitse noppa jonka haluat lukita----");
-
-        // Käydään läpi hashmappi lukituista nopista.
-        for(Map.Entry<Integer, Boolean> entry : lukitutNopat.entrySet()) {
-            String nopanTila;
-            if(entry.getValue() == false) {
-                nopanTila = "Lukitsematon";
-            } else {
-                nopanTila = "Lukittu";
-            }
-            System.out.println(entry.getKey() + " -> " + nopanTila);
-        }
-    }
-
     // Piirrä piste valinta
     public void piirraPisteValinta() {
         System.out.println("--------------------------------------------------");

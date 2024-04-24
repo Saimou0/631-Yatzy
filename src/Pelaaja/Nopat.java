@@ -6,20 +6,17 @@ import java.util.LinkedHashMap;
 
 public class Nopat {
 
-
     LinkedHashMap<Integer, Boolean> lukitutNopat = new LinkedHashMap<Integer, Boolean>();
     private int[] nopat;
     private final int NOPPAMAARA = 5;
 
     public Nopat() {
         this.nopat = new int[NOPPAMAARA];
-        lukitutNopat.put(1, false); 
-        lukitutNopat.put(2, false);
-        lukitutNopat.put(3, false);
-        lukitutNopat.put(4, false);
-        lukitutNopat.put(5, false);
+        for(int i = 1; i <= NOPPAMAARA; i++) {
+            lukitutNopat.put(i, false);
+        }
     }
-    // ! FIXME Noppien lukitus ei pysy. 
+    
     public void heitaNopat() {
         for (int i = 0; i < NOPPAMAARA; i++) {
             if(lukitutNopat.get(i + 1) == false) {
@@ -48,5 +45,4 @@ public class Nopat {
     public LinkedHashMap<Integer, Boolean> getLukitutNopat() {
         return lukitutNopat;
     }
-    
 }
