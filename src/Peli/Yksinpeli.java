@@ -34,12 +34,13 @@ public class Yksinpeli {
         boolean peliJatkuu = true;
         while (peliJatkuu) {
             
-            if (pelaaja.vuorojenMaara == 17) {
+            if (pelaaja.vuorojenMaara == 16) {
                 // Laske pisteet yhteen ja tallena ne tiedostoon.
                 // Jos pelaa jo valmista tiedostoa vastaan, vertaa pisteitä.
+                pelaaja.tallennaSumma();
+                this.pelinLopetus();
                 peliJatkuu = false;
             }
-            
             
             // Nollataan heitot ja nollataan ensimmäinen heitto kun pelaajalla alkaa uusi vuoro
             if(pelaajanNykyinenVuoro < pelaaja.vuorojenMaara) {
@@ -51,10 +52,10 @@ public class Yksinpeli {
             }
             
             pelaaja.laskeValisumma();
-            pelaaja.laskeSumma();
             
             // Lopetetaan peli jos pelin päivitys palauttaa 0
             if (pelinPaivitys() == 0) {
+                pelaaja.tallennaSumma();
                 peliJatkuu = false;
             }
 
@@ -65,11 +66,11 @@ public class Yksinpeli {
     private int pelinPaivitys() {
         kayttoliittyma.tyhjennaTerminaali();
 
-        // Piirretään pelaajan pistekortti
-        kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi(), pelaaja.getMahdollisetPisteet());
-
+        // Piirretään pelaajan ja vastustajan pistekortit. Jos ei ole vastustajaa piirretään vain pelaajan pistekortti.
         if (this.vastustaja != null) {
-            kayttoliittyma.piirraPisteKortti(vastustaja.getPisteet(), vastustaja.getNimi(), vastustaja.getMahdollisetPisteet());
+            kayttoliittyma.piirraMontaPistekorttia(pelaaja, vastustaja, pelaaja.getMahdollisetPisteet());
+        } else {
+            kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi(), pelaaja.getMahdollisetPisteet());
         }
 
         // Piirretään pelaajan heittojen määrä

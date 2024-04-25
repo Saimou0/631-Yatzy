@@ -96,10 +96,6 @@ public class Pelaaja{
         pistekirjaus.laskeValisumma();
     }
 
-    public void laskeSumma() {
-        pistekirjaus.laskeSumma();
-    }
-
     public LinkedHashMap<String, Integer> getPisteTiedostot() {
         return pistekirjaus.getPisteTiedostot();
     }
@@ -109,10 +105,14 @@ public class Pelaaja{
     }
 
     // Pisteiden lisääminen
-    // Tarvitsee pisteiden laskennan
     public void lisaaPisteet(String nimi) {
         this.pistekirjaus.lisaaPisteet(nimi);
 
+        this.pistekirjaus.tallennaPisteetTiedostoon(this.nimi);
+    }
+
+    public void tallennaSumma() {
+        this.pistekirjaus.laskeSumma();
         this.pistekirjaus.tallennaPisteetTiedostoon(this.nimi);
     }
 

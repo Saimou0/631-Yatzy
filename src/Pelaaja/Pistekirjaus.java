@@ -16,9 +16,6 @@ public class Pistekirjaus {
 
     private final String[] numerot = { "Ykkoset", "Kakkoset", "Kolmoset", "Neloset", "Viitoset", "Kuutoset"};
 
-    // TODO: Välisumman laskemiseen metodit.
-    // TODO: Rikkinäiset pisteiden laskemisen metodit.
-
     // Metodi pisteiden tallentamiseen tekstitiedostoon.
     public void tallennaPisteetTiedostoon(String pelaajannimi) {
         try {
@@ -109,7 +106,7 @@ public class Pistekirjaus {
 
         // Samat
         int pari = laskeSamat(nopat, 2);
-        int kaksiParia = laskeSamat(nopat, 4);
+        int kaksiParia = laskeKaksiParia(nopat);
         int kolmeSamaa = laskeSamat(nopat, 3);
         int neljaSamaa = laskeSamat(nopat, 4);
 
@@ -184,27 +181,19 @@ public class Pistekirjaus {
         return 0;
     }
 
-    // TODO EI TOIMI
     private int laskeKaksiParia(int[] nopat) {
         int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
-        int summa = 0;
-        boolean kaksiParia = false;
 
-        // for(int i = 0; i < nopatLista.length; i++) {
-        //     if (nopatLista[i] == nopatLista[i - 1]) {
-                
-        //     }
-        // }
+        if(laskeSamat(nopatLista, 2) != 0 && laskeSamat(nopatLista, 3) == 0) {
+            int poistettavaNumero = laskeSamat(nopatLista, 2) / 2;
+            
+            nopatLista = poistaNoppia(nopatLista, poistettavaNumero);
 
-        // if(this.laskeSamat(nopatLista, 2) != 0) {
-        //     for (int i = nopatLista.length - 1; i > 0; i--) {
-        //         if (nopatLista[i] == nopatLista[i - 1]) {
-        //             summa += nopatLista[i] + nopatLista[i - 1];
-        //             return summa;
-        //         }
-        //     }
-        // }
+            if(laskeSamat(nopatLista, 2) != 0) {
+                return laskeSamat(nopatLista, 2) + poistettavaNumero * 2;
+            }
+        }
 
         return 0;
     }
@@ -247,23 +236,19 @@ public class Pistekirjaus {
         return 0;
     }
 
-    // TODO Melkein toimii
-    // * 3+3+3+2+2 toimii
-    // * 3+3+3+2+1 myös toimii
-    // * 3+3+1+2+2 ei toimi
     private int laskeTaysikasi(int[] nopat) {
         int[] nopatLista = Arrays.copyOf(nopat, nopat.length);
         Arrays.sort(nopatLista);
         int summa = 0;
 
-        if(laskeSamat(nopatLista, 2) != 0 && laskeSamat(nopatLista, 3) != 0 
-            && laskeSamat(nopatLista, 4) == 0 && laskeSamat(nopatLista, 5) == 0) {
-            for (int i = nopatLista.length - 1; i > 1; i--) {
-                if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] != nopatLista[i - 2]) {
-                    summa += nopatLista[i] + nopatLista[i - 1];
-                } else if(nopatLista[i] == nopatLista[i - 1] && nopatLista[i] == nopatLista[i - 2]) {
-                    summa += nopatLista[i] + nopatLista[i - 1] + nopatLista[i - 2];
-                }
+        if(laskeSamat(nopatLista, 3) != 0 && laskeSamat(nopatLista, 4) == 0 && laskeSamat(nopatLista, 5) == 0) 
+        {
+            int poistettavaNumero = laskeSamat(nopatLista, 3) / 3;
+
+            nopatLista = poistaNoppia(nopatLista, poistettavaNumero);
+
+            if(laskeSamat(nopatLista, 2) != 0) {
+                summa = (nopatLista[0] + nopatLista[1]) + poistettavaNumero * 3;
             }
 
             return summa;
@@ -279,6 +264,26 @@ public class Pistekirjaus {
         }
 
         return summa;
+    }
+
+    private int[] poistaNoppia(int[] nopat, int numero) {
+        int laskuri = 0;
+        for (int i = 0; i < nopat.length; i++) {
+            if (nopat[i] == numero) {
+                laskuri++;
+            }
+        }
+
+        int[] uusiNopat = new int[nopat.length - laskuri];
+        int j = 0;
+        for(int i = 0; i < nopat.length; i++) {
+            if(nopat[i] != numero) {
+                uusiNopat[j] = nopat[i];
+                j++;
+            }
+        }
+
+        return uusiNopat;
     }
 
     public void laskeValisumma() {
@@ -300,13 +305,14 @@ public class Pistekirjaus {
         int summa = 0;
 
         for (Map.Entry<String, Integer> merkinta : pisteet.entrySet()) {
-            if(merkinta.getValue() == -1 || merkinta.getValue() == null) {
-                return;
+            if(merkinta.getValue() == -1 || merkinta.getValue() == null && 
+               merkinta.getKey().equals("Summa") || merkinta.getKey().equals("Valisumma")) 
+            {
+                continue;
             }
-
-            if (merkinta.getKey() != "Valisumma"){
-                summa += merkinta.getValue();
-            }
+            
+            summa += merkinta.getValue();
+            
         }
 
         this.pisteet.put("Summa", summa);

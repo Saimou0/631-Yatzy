@@ -1,5 +1,5 @@
 // Lisääjä/Tekijä: Jimi
-
+// Hyvin paljon muokannut: Simo
 package Pelaaja;
 
 import java.util.LinkedHashMap;

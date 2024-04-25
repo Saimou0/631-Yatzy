@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import Pelaaja.Pelaaja;
+
 public class Kayttoliittyma {
     static final String PUNAINEN = "\033[0;31m";
     static final String VIHREA = "\033[0;32m";
@@ -141,6 +143,54 @@ public class Kayttoliittyma {
             -----------------------------
             """
         );
+    }
+
+    // TODO: Korjaa välisummma ja summa.        
+    // TODO: Vastustajan summassa jotain ongelmaa.
+    public void piirraMontaPistekorttia(Pelaaja pelaaja, Pelaaja vastustaja, Map<String, Integer> mahdollisetPisteet) {
+        Map<String, Integer> pelaajanPisteet = pelaaja.getPisteet();
+        Map<String, Integer> vastustajanPisteet = vastustaja.getPisteet();
+
+        for (String avain : pelaajanPisteet.keySet()) {
+
+            if(avain.equals("Ykkoset")) {
+                System.out.println("-----------------------------  -----------------------------");
+                System.out.println("|       PISTE KORTTI        |  |       PISTE KORTTI        |");
+                System.out.printf("| %-25s |  | %-25s |\n", pelaaja.getNimi(), vastustaja.getNimi());
+                System.out.printf("| %-25s |  | %-25s |\n", " ", " ");
+            }
+            
+            if(avain.equals("Valisumma") || avain.equals("Summa")) {
+                System.out.printf("| %-25s |  | %-25s |\n"," ", " ");
+            }
+            
+            if(avain.equals("Pieni suora") || avain.equals("Pari")) {
+                System.out.printf("| %-25s |  | %-25s |\n", " ", " ");
+            }
+
+            if(pelaajanPisteet.get(avain) == -1) {
+                if (mahdollisetPisteet.containsKey(avain)) {
+                    int mahdollinenPisteArvo = mahdollisetPisteet.get(avain);
+                    System.out.printf(PUNAINEN + "| %-19s %5d | " + VIHREA + " | %-19s %5d | %n" + RESETOI_VARI, 
+                    avain, mahdollinenPisteArvo, avain, (vastustajanPisteet.get(avain) == -1 ? 0 : vastustajanPisteet.get(avain)));
+                } else {
+                    System.out.printf("| %-25s |  | %-25s | %n", avain, avain);
+                }
+            } else {
+                System.out.printf(VIHREA + "| %-19s %5d |  | %-19s %5d | %n" + RESETOI_VARI, 
+                avain, pelaajanPisteet.get(avain), avain, (vastustajanPisteet.get(avain) == -1 ? 0 : vastustajanPisteet.get(avain)));
+            }
+            // System.out.printf("| %-19s %5d |  | %-19s %5d | %n", avain, pelaajanPisteet.get(avain), avain, vastustajanPisteet.get(avain));
+        }
+
+        System.out.println(
+            """
+            |                           |  |                           |
+            -----------------------------  -----------------------------
+            """
+        );
+
+
     }
 
     // Nopat

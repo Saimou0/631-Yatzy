@@ -1,7 +1,9 @@
 // Lisääjä/Tekijä: Simo
 package Kayttoliittyma;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -85,18 +87,6 @@ public class Menunlogiikka {
     private Pelaaja paatteleVastustaja(Pelaaja pelaaja) {
         LinkedHashMap<String, Integer> pisteTiedostoLista = pistekirjaus.getPisteTiedostot();
 
-        // Iterator<Map.Entry<String, Integer>> iteraattori =
-        // pisteTiedostoLista.entrySet().iterator();
-
-        // while (iteraattori.hasNext()) {
-        // Map.Entry<String, Integer> pisteTiedosto = iteraattori.next();
-        // String kokoAvain = pisteTiedosto.getKey().toString();
-        // String avaimenNimi = kokoAvain.split("_")[0];
-        // if(avaimenNimi.equals(pelaaja.getNimi())) {
-
-        // }
-        // }
-
         kayttoliittyma.piirraValitseVastustaja(pisteTiedostoLista);
         int pelaajanSyotto = -2;
 
@@ -108,30 +98,15 @@ public class Menunlogiikka {
                 return null;
             }
 
-            // Mennään koko tiedostot mäppi läpi
-            // TODO: koska koko mäppi mennään läpi, niin jos jokin keysetti ei matchaa
-            // pelaajan nimee niin sopiva vastustaja meen falseks ja sil ei oo väliä jos
-            // jokin keyset sit matchaa, ohjelma joka tapauksessa lopettaa loopin.
-            // !TODO: Does not work at all
-            // !Estä nimeäminen nollaksi
-            // for(Map.Entry<String, Integer> pisteTiedosto : pisteTiedostoLista.entrySet())
-            // {
-            // String kokoAvain = pisteTiedosto.getKey().toString();
-            // String avaimenNimi = kokoAvain.split("_")[0];
-
-            // // Jos pelaajan syötto on suurempi kun tiedostojen määrä tai pienempi kun 0,
-            // piirretään virheilmoitus.
-            // if(pelaajanSyotto > pisteTiedostoLista.size() || pelaajanSyotto < 0) {
-            // kayttoliittyma.piirraVirheSyotto();
-            // } else {
-            // if(avaimenNimi.equals(pelaaja.getNimi())) {
-            // System.out.println("Et voi pelata tätä tiedostoa vastaan.");
-            // } else {
-
-            // }
-            // }
-
-            // }
+            List<String> avaimet = new ArrayList<>(pisteTiedostoLista.keySet());
+            
+            if(avaimet.get(pelaajanSyotto - 1).equals("TiedostoEttaGitToimii.txt")) {
+                System.out.println("Et voi pelata tätä tiedostoa vastaan.");
+            } else if (pelaaja.getNimi().equals(avaimet.get(pelaajanSyotto - 1).split("_")[0])) {
+                System.out.println("Et voi pelata tätä tiedostoa vastaan.");
+            } else {
+                sopivaVastustaja = false;
+            }
 
         }
 

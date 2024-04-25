@@ -1,3 +1,4 @@
+//Tekija/lisääjä: Simo
 package Peli;
 
 import java.util.LinkedHashMap;
