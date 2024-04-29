@@ -145,8 +145,6 @@ public class Kayttoliittyma {
         );
     }
 
-    // TODO: Korjaa välisummma ja summa.        
-    // TODO: Vastustajan summassa jotain ongelmaa.
     public void piirraMontaPistekorttia(Pelaaja pelaaja, Pelaaja vastustaja, Map<String, Integer> mahdollisetPisteet) {
         Map<String, Integer> pelaajanPisteet = pelaaja.getPisteet();
         Map<String, Integer> vastustajanPisteet = vastustaja.getPisteet();

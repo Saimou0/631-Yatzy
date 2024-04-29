@@ -2,7 +2,6 @@
 package Peli;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
 import Kayttoliittyma.Kayttoliittyma;
 import Pelaaja.Pelaaja;
@@ -11,7 +10,7 @@ public class Yksinpeli {
     Kayttoliittyma kayttoliittyma;
     PelaajaSyotto pelaajaSyotto;
     Scanner lukija = new Scanner(System.in);
-    
+
     private Pelaaja vastustaja;
     private Pelaaja pelaaja;
 
@@ -28,31 +27,30 @@ public class Yksinpeli {
         this.vastustaja = vastustaja;
         this.pelaajaSyotto = new PelaajaSyotto(kayttoliittyma);
     }
-    
+
     // Pelin jatkumisen looppi
     public void pelinLoop() {
         boolean peliJatkuu = true;
         while (peliJatkuu) {
-            
+
             if (pelaaja.vuorojenMaara == 16) {
-                // Laske pisteet yhteen ja tallena ne tiedostoon.
-                // Jos pelaa jo valmista tiedostoa vastaan, vertaa pisteitä.
+                // Laske pelaajan summa ja tallenna se
                 pelaaja.tallennaSumma();
-                this.pelinLopetus();
                 peliJatkuu = false;
             }
-            
-            // Nollataan heitot ja nollataan ensimmäinen heitto kun pelaajalla alkaa uusi vuoro
-            if(pelaajanNykyinenVuoro < pelaaja.vuorojenMaara) {
+
+            // Nollataan heitot ja nollataan ensimmäinen heitto kun pelaajalla alkaa uusi
+            // vuoro
+            if (pelaajanNykyinenVuoro < pelaaja.vuorojenMaara) {
                 pelaajanNykyinenVuoro = pelaaja.vuorojenMaara;
                 ensimmainenHeitto = true;
                 heittojenMaraa = 3;
-                
+
                 pelaaja.avaaKaikkiNopat();
             }
-            
+
             pelaaja.laskeValisumma();
-            
+
             // Lopetetaan peli jos pelin päivitys palauttaa 0
             if (pelinPaivitys() == 0) {
                 pelaaja.tallennaSumma();
@@ -66,7 +64,8 @@ public class Yksinpeli {
     private int pelinPaivitys() {
         kayttoliittyma.tyhjennaTerminaali();
 
-        // Piirretään pelaajan ja vastustajan pistekortit. Jos ei ole vastustajaa piirretään vain pelaajan pistekortti.
+        // Piirretään pelaajan ja vastustajan pistekortit. Jos ei ole vastustajaa
+        // piirretään vain pelaajan pistekortti.
         if (this.vastustaja != null) {
             kayttoliittyma.piirraMontaPistekorttia(pelaaja, vastustaja, pelaaja.getMahdollisetPisteet());
         } else {
@@ -94,10 +93,10 @@ public class Yksinpeli {
     // Noppien heittäminen
     public void heitaNopat() {
         // Katsotaan onko ensimmäinen heitto
-        if(heittojenMaraa == 3 && ensimmainenHeitto == true) {
+        if (heittojenMaraa == 3 && ensimmainenHeitto == true) {
             ensimmainenHeitto = false;
         }
-        
+
         // Katsotaan onko pelaajalla heittoja jäljellä
         if (heittojenMaraa > 0) {
             // Heitetään nopat ja vähennetään heittojen määrää
@@ -132,8 +131,8 @@ public class Yksinpeli {
             kayttoliittyma.piirraVirheSyotto();
         }
     }
-    
-    //Pisteet
+
+    // Pisteet
     public void pelaajanPisteValinta() {
         kayttoliittyma.tyhjennaTerminaali();
         kayttoliittyma.piirraPisteKortti(pelaaja.getPisteet(), pelaaja.getNimi(), pelaaja.getMahdollisetPisteet());
@@ -150,13 +149,13 @@ public class Yksinpeli {
             }
 
             // Tarkistetaan onko pelaajan syöttö olemassa pisteissä
-            if(!pelaaja.getPisteet().containsKey(kayttajanSyotto)) {
+            if (!pelaaja.getPisteet().containsKey(kayttajanSyotto)) {
                 kayttoliittyma.piirraVirheSyotto();
                 continue;
             }
 
             // Estetään pelajaa valitsemasta summaa tai välisummaa.
-            if(kayttajanSyotto.equals("Summa") || kayttajanSyotto.equals("Valisumma")) {
+            if (kayttajanSyotto.equals("Summa") || kayttajanSyotto.equals("Valisumma")) {
                 kayttoliittyma.piirraVirheSyotto();
                 continue;
             }
@@ -167,7 +166,7 @@ public class Yksinpeli {
                 continue;
             }
 
-            // lisätään pisteet pelaajalle 
+            // lisätään pisteet pelaajalle
             pelaaja.lisaaPisteet(kayttajanSyotto);
             pelaaja.vuorojenMaara++;
             pisteValintaTila = false;
@@ -192,14 +191,16 @@ public class Yksinpeli {
             tilaLista.put("Valitse Pisteet", 1);
         }
 
-        // Jos pelaaja ei ole vielä heittänyt kertaakaan vuorolla, poistetaan lukitse ja valitse pisteet vaihtoehdot listasta.
+        // Jos pelaaja ei ole vielä heittänyt kertaakaan vuorolla, poistetaan lukitse ja
+        // valitse pisteet vaihtoehdot listasta.
         if (ensimmainenHeitto == true) {
             tilaLista.put("Heitä", 1);
             tilaLista.put("Lukitse", 0);
             tilaLista.put("Valitse Pisteet", 0);
         }
 
-        // Jos pelaajalla on 0 heittoa, poistetaan heitä ja lukitse vaihtoehdot listasta.
+        // Jos pelaajalla on 0 heittoa, poistetaan heitä ja lukitse vaihtoehdot
+        // listasta.
         if (heittojenMaraa == 0) {
             tilaLista.put("Heitä", 0);
             tilaLista.put("Lukitse", 0);
@@ -208,34 +209,4 @@ public class Yksinpeli {
 
         kayttoliittyma.piirraPelaajanVaihtoehdot(tilaLista);
     }
-
-    public void pelinLopetus() {
-        if(this.vastustaja != null) {
-            Map<String, Integer> pelaajanPisteet = pelaaja.getPisteet();
-            Map<String, Integer> vastustajanPisteet = vastustaja.getPisteet();
-            
-            Integer pelaajanArvo = pelaajanPisteet.get("Summa");
-            Integer vastustajanArvo = vastustajanPisteet.get("Summa");
-
-            if(pelaajanArvo == -1) {
-                System.out.println("Pelaajalla ei ole summaa");
-                return;
-            }
-
-            if(vastustajanArvo == -1) {
-                System.out.println("Vastustajalla ei ole summaa");
-            }
-
-            if(pelaajanArvo > vastustajanArvo) {
-                System.out.println("Voittaja on: " + pelaaja.getNimi());
-            } else if (pelaajanArvo < vastustajanArvo) {
-                System.out.println("Voittaja on: " + vastustaja.getNimi());
-            } else {
-                System.out.println("Tasapeli");
-            }
-
-
-        } 
-    }
-
 }
